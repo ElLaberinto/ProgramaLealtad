@@ -1,0 +1,75 @@
+extends layout 
+
+block content 
+    main(class="main main-cliente")
+        section.cliente-opciones
+            nav.cliente-nav
+                a(href="#perfil") Mi perfil 
+                a(href="#puntos") Mis puntos
+                a(href="#historial") Mi historial de compras
+        section.cliente-contenido 
+            section.cliente-sub#perfil
+                label
+                    div.cliente-texto2 Nombre: 
+                    .cliente-texto1= usuario.usr_name
+                label
+                    div.cliente-texto2 Celular: 
+                    .cliente-texto1= cliente.clt_phone
+                label
+                    div.cliente-texto2 Correo:
+                    .cliente-texto1= usuario.usr_mail
+                - var fechaFormateada = new Date(cliente.clt_birthday).toISOString().split('T')[0]
+                label
+                    div.cliente-texto2 Cumpleaños:
+                    .cliente-texto1= fechaFormateada
+                .cliente-editar-btn Editar información
+                .cliente-editar-modal 
+                    .cliente-editar-contenido 
+                        form(action="")
+                            span.cliente-editar-cerrar X
+                            label(for="name") Nombre: 
+                            input#name(type="text" name="name" value=`${usuario.usr_name}`)
+                            label(for="phone") Celular: 
+                            input#phone(type="text" inputmode="numeric" pattern="[0-9]{10}" maxlength="10" 
+                            minlength="10" name="phone" value=`${cliente.clt_phone}`)
+                            label(for="mail") Correo: 
+                            input#mail(type="email" name="mail" value=`${usuario.usr_mail}`) 
+                            label(for="birthday") Cumpleaños: 
+                            input#birthday(type="date" name="birthday" value=`${fechaFormateada}`) 
+                            label(for="password") Nueva contraseña: 
+                            input#password(type="password" name="password" value="******")
+                            input(type="submit" value="Guardar cambios")
+            section.cliente-sub#puntos 
+                label
+                    div.cliente-texto2 Mis puntos: 
+                    .cliente-texto1= cliente.clt_points
+                    div.cliente-texto2 Para que me alcanza con mis puntos
+                    - var i = 0
+                    each promo in listaPromos 
+                        if cliente.clt_points >= promo.pro_points 
+                            - i = i + 1
+                            .cliente-texto3= promo.pro_name + " Puntos a usar: " + promo.pro_points
+                    if i == 0
+                        .cliente-texto3 Por ahora no alcanzas ninguna promoción, sigue acumulando puntos y descubre nuestras grandiosas promociones.
+            section.cliente-sub#historial
+                h3.cliente-texto1 Historial de compras 
+                table.cliente-tabla 
+                    tr
+                        th.cliente-texto2 Fecha 
+                        th.cliente-texto2 Monto
+                        th.cliente-texto2 Puntos
+                        th.cliente-texto2 Ticket 
+                    each buy in buysList 
+                        tr 
+                            td.cliente-texto3= buy.buy_date
+                            td.cliente-texto3= buy.buy_total
+                            td.cliente-texto3= buy.buy_points
+                            td
+                                a(href=`${buy.buy_url}` target="blank")
+                                    img.cliente-tabla-img(src="/media/camara.jpeg", alt="ticket")
+
+block extraScripts
+    script(type="module" src="/js/clients.js") 
+
+                
+        

@@ -1,0 +1,49 @@
+//Variables SCSS
+
+$color-fondo-light: rgb(250,220,250);
+$color-principal-light: rgb(183, 163, 207);
+$color-secundario-light: rgb(254, 244, 223);
+$color-header-light: rgb(154, 113, 177);
+$color-titulos-light: rgb(113, 112, 179);
+$color-botones-light: rgb(179, 22, 134);
+$color-botones-hover-light: rgb(122, 11, 91);
+$color-text-light: rgb(50, 0, 100);
+$color-text2-light: rgb(0, 0, 0);
+
+$color-fondo-dark: rgb(0, 0, 0);
+$color-principal-dark: rgb(100, 0, 150);
+$color-secundario-dark: rgb(50, 0, 100);
+$color-header-dark: rgb(50, 0, 50);
+$color-titulos-dark: rgb(150, 50, 50);
+$color-botones-dark: rgb(150, 100, 150);
+$color-botones-hover-dark: rgb(100, 100, 150);
+$color-text-dark: rgb(150, 50, 250);
+$color-text2-dark: rgb(250, 250, 250);
+
+// Convertir a CSS
+
+:root {
+    @media (prefers-color-scheme: light) {
+      --color-fondo: #{$color-fondo-light};
+      --color-principal: #{$color-principal-light};
+      --color-secundario: #{$color-secundario-light};
+      --color-header: #{$color-header-light};
+      --color-titulos: #{$color-titulos-light};
+      --color-botones: #{$color-botones-light};
+      --color-botones-hover: #{$color-botones-hover-light};
+      --color-text: #{$color-text-light};
+      --color-text2: #{$color-text2-light};
+    }
+  
+    @media (prefers-color-scheme: dark) {
+      --color-fondo: #{$color-fondo-dark};
+      --color-principal: #{$color-principal-dark};
+      --color-secundario: #{$color-secundario-dark};
+      --color-header: #{$color-header-dark};
+      --color-titulos: #{$color-titulos-dark};
+      --color-botones: #{$color-botones-dark};
+      --color-botones-hover: #{$color-botones-hover-dark};
+      --color-text: #{$color-text-dark};
+      --color-text2: #{$color-text2-dark};
+    }
+  }

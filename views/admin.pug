@@ -1,0 +1,361 @@
+extends layout 
+
+block content 
+    main(class="main main-admin")
+        section.admin-opciones
+            nav.admin-nav
+                a(href="#registro") Registrar compra 
+                a(href="#alta") Nuevo cliente 
+                a(href="#promos") Administrar promociones 
+                a(href="#rangos") Administrar rangos 
+                a(href="#redencion") Redención de puntos
+                a(href="#eventos") Administrar eventos
+                a(href="#lecturas") Administrar lecturas
+                if usuario.usr_role === "Administrador"
+                    a(href="#menu") Modificar menu
+                    a(href="#clientes") Administrar clientes
+                    a(href="#admyemp") Administradores y empleados
+        section.admin-contenido 
+            section.admin-sub#registro 
+                form.admin-form(action="" method="post")
+                    .admin-label
+                        label(for="reg-cliente") Cliente: 
+                        input#reg-cliente(type="text" name="reg_client" required 
+                        autocomplete="off" placeholder="Nombre o celular del cliente")
+                        ul.lista-filtro#lista-clientes-reg
+                    .admin-label 
+                        label(for="reg-num") Número de ticket: 
+                        input#reg-num(type="text" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" 
+                        minlength="6" name="reg_ticket" required)
+                    .admin-label 
+                        label(for="reg-tot") Total del importe: 
+                        input#reg-tot(type="number" min="0" step="0.01" name="reg_total" required)
+                    .admin-label 
+                        label(for="reg-pts") Puntos: 
+                        input#reg-pts(type="number" name="reg_points" readonly)
+                    .admin-label-ticket
+                        label(for="reg-img") Subir ticket:
+                        input#reg-img(type="file" accept="image/*" capture="environment" name="reg_img")
+                        img#preview-reg(src="" alt="Vista previa del ticket")
+                    input(type="submit" value="Guardar")
+            section.admin-sub#alta
+                form.admin-form#alta-form(action="")
+                    .admin-label 
+                        label(for="alta-nom") Nombre: 
+                        input#alta-nom(type="text" name="alta_name" required)
+                    .admin-label 
+                        label(for="alta-cel") Celular: 
+                        input#alta-cel(type="text" inputmode="numeric" pattern="[0-9]{10}" maxlength="10" 
+                        minlength="10" name="alta_phone" required)
+                    .admin-label 
+                        label(for="alta-cor") Correo electrónico: 
+                        input#alta-cor(type="mail" name="alta_mail")  
+                    .admin-label 
+                        label(for="alta-pas") Contraseña: 
+                        input#alta-pas(type="password" name="alta_password" required)
+                    .admin-label 
+                        label(for="alta-nac") Fecha de nacimiento: 
+                        input#alta-nac(type="date" name="alta_birthday")
+                    .admin-label 
+                        label(for="alta-ran") Rango del cliente: 
+                        select#alta-ran(name="alta_rank")
+                            each rank in ranksList 
+                                if rank.ran_status 
+                                    option(value=`${rank.ran_name}`)= rank.ran_name 
+                    input(type="submit" value="Guardar")
+            section.admin-sub#promos
+                table.admin-tabla 
+                    tr
+                        th Descripción 
+                        th Vencimiento
+                        th Estatus 
+                        th Puntos requeridos 
+                        th Acciones 
+                    each promo in listaPromos
+                        - var fechaFormateada = new Date(promo.pro_expiration).toISOString().split('T')[0]
+                        tr
+                            td= promo.pro_name
+                            if promo.pro_expiration != null
+                                td= fechaFormateada
+                            else 
+                                td No expira
+                            td(data-status-id=promo.pro_id data-section="promos")= promo.pro_status ? "Activo" : "Inactivo"
+                            td= promo.pro_points
+                            td
+                                img.admin-apagador(src="/media/puntos/apagador.png" alt="apagar/encender" data-id=promo.pro_id data-sec="promos" data-st=`${promo.pro_status}`)
+                                img.admin-eliminador(src="/media/puntos/borrar.png" alt="borrar" data-id=promo.pro_id data-sec="promos")
+                                img.admin-editor(src="/media/puntos/editar.png" alt="editar" data-id=promo.pro_id data-sec="promos")
+                    tr
+                        td(colspan="5")
+                .admin-btn-nuevo#promos-btn Agregar nuevo
+                .admin-modal#promos-modal
+                    .admin-modal-content 
+                        span#promos-cerrar X 
+                        form.admin-form#promos-form
+                            input(type="hidden" name="promos-hide" value="Guardar")
+                            .admin-label 
+                                label(for="promos-name") Descripción: 
+                                input#promos-name(type="text" name="promos_name" required)
+                            .admin-label 
+                                label(for="promos-points") Puntos requeridos: 
+                                input#promos-points(type="number" name="promos_points" min="0" required)
+                            .admin-label 
+                                label(for="promos-expiration") Fecha de expiración: 
+                                input#promos-expiration(type="date" name="promos_expiration" required)
+                                .admin-label-checkbox
+                                    label(for="promos-noexp") Sin expiración
+                                        input#promos-noexp(type="checkbox" name="promos_noexp")
+                            input(type="submit" value="Guardar")
+            section.admin-sub#rangos
+                table.admin-tabla 
+                    tr
+                        th Tipo de cliente
+                        th Estatus 
+                        th % cashback
+                        th Acciones 
+                    each rango in ranksList
+                        tr
+                            td= rango.ran_name
+                            td(data-status-id=rango.ran_id data-section="rangos")= rango.ran_status ? "Activo" : "Inactivo"
+                            td= rango.ran_cashback + "%"
+                            td
+                                img.admin-apagador(src="/media/puntos/apagador.png" alt="apagar/encender" data-id=rango.ran_id data-sec="rangos" data-st=`${rango.ran_status}`)
+                                img.admin-eliminador(src="/media/puntos/borrar.png" alt="borrar" data-id=rango.ran_id data-sec="rangos")
+                                img.admin-editor(src="/media/puntos/editar.png" alt="editar" data-id=rango.ran_id data-sec="rangos")
+                    tr
+                        td(colspan="4")
+                .admin-btn-nuevo#rangos-btn Agregar nuevo
+                .admin-modal#rangos-modal
+                    .admin-modal-content 
+                        span#rangos-cerrar X 
+                        form.admin-form#rangos-form
+                            input(type="hidden" name="rangos-hide" value="Guardar")
+                            .admin-label 
+                                label(for="rangos-name") Nombre: 
+                                input#rangos-name(type="text" name="rangos_name" required)
+                            .admin-label 
+                                label(for="rangos-cash") Cashback: 
+                                input#rangos-cash(type="number" name="rangos_cash" min="0" required)
+                            input(type="submit" value="Guardar")
+            section.admin-sub#redencion 
+                form.admin-form(action="" method="post") 
+                    .admin-label
+                        label(for="red-cliente") Cliente: 
+                        input#red-cliente(type="text" name="red_client" required 
+                        autocomplete="off" placeholder="Nombre o celular del cliente")
+                        ul.lista-filtro#lista-clientes-red
+                    .admin-label
+                        label(for="red-promo") Promoción: 
+                        input#red-promo(type="text" name="red_promo" required 
+                        autocomplete="off" placeholder="Promoción a canjear")
+                        ul.lista-filtro#lista-promos-red
+                    .admin-label
+                        label(for="red-num") Número de ticket: 
+                        input#red-num(type="text" inputmode="numeric" pattern="\d{6}" maxlength="6" 
+                        minlength="6" name="red_ticket" required)
+                    .admin-label 
+                        label(for="red-tot") Total del importe: 
+                        input#red-tot(type="number" min="0" step="0.01" name="red_total" required)
+                    .admin-label-ticket 
+                        label(for="red-img") Subir ticket:
+                        input#red-img(type="file" accept="image/*" capture="environment" name="red_img")
+                        img#preview-red(src="" alt="Vista previa del ticket")
+                    .admin-label 
+                        label(for="red-pts") Puntos: 
+                        input#red-pts(type="number" name="red_points" readonly)
+                    input(type="submit" value="Guardar")
+            section.admin-sub#eventos
+                table.admin-tabla 
+                    tr 
+                        th Nombre 
+                        th Imparte 
+                        th Duración 
+                        th Fechas 
+                        th Horarios 
+                        th Costo/Aparta
+                        th Estatus
+                        th Acciones
+                    each event in eventsList 
+                        tr 
+                            td= event.evt_name 
+                            td= event.evt_instructor 
+                            td= event.evt_duration 
+                            td= event.evt_dates 
+                            td= event.evt_schedules 
+                            td= event.evt_cost + " / " + event.evt_deposit 
+                            td(data-status-id=event.evt_id data-section="eventos")= event.evt_status ? "Activo" : "Inactivo"
+                            td 
+                                img.admin-apagador(src="/media/puntos/apagador.png" alt="apagar/encender" data-id=event.evt_id data-sec="eventos" data-st=`${event.evt_status}`)
+                                img.admin-eliminador(src="/media/puntos/borrar.png" alt="borrar" data-id=event.evt_id data-sec="eventos")
+                                img.admin-editor(src="/media/puntos/editar.png" alt="editar" data-id=event.evt_id data-sec="eventos")
+                    tr 
+                        td(colspan="8")
+                .admin-btn-nuevo#eventos-btn Nuevo
+                .admin-modal#eventos-modal
+                    .admin-modal-content3
+                        span#eventos-cerrar X
+                        form.admin-form#eventos-form
+                            input(type="hidden" name="hide" value="Guardar")
+                            .admin-label 
+                                label(for="eventos-name") Nombre:
+                                input#eventos-name(type="text" name="eventos_name" required)
+                            .admin-label 
+                                label(for="eventos-instructor") Instructor:
+                                input#eventos-instructor(type="text" name="eventos_instructor" required)
+                            .admin-label 
+                                label(for="eventos-duration") Duración:
+                                input#eventos-duration(type="number" name="eventos_duration" min="1" required) 
+                            .admin-label-ticket
+                                label(for="eventos-dates") Fechas:
+                                #container-dates
+                                    input#eventos-dates(type="text" name="eventos_dates[]" required)  
+                                input#eventos-add-date(type="button" value="Otra fecha")
+                            .admin-label-ticket
+                                label(for="eventos-schedules") Horarios:
+                                #container-schedules
+                                    input#eventos-schedules(type="text" name="eventos_schedules[]" required)  
+                                input#eventos-add-schedule(type="button" value="Otro horario")
+                            .admin-label 
+                                label(for="eventos-cost") Costo:
+                                input#eventos-cost(type="number" name="eventos_cost" min="0" step="0.01" required)
+                                .admin-label-checkbox
+                                    label(for="eventos-nocost") Gratis
+                                        input#eventos-nocost(type="checkbox" name="eventos_nocost")
+                            .admin-label 
+                                label(for="eventos-deposit") Aparta con:
+                                input#eventos-deposit(type="number" name="eventos_deposit" min="0" step="0.01" required)
+                                .admin-label-checkbox
+                                    label(for="eventos-nodeposit") Sin apartar
+                                        input#eventos-nodeposit(type="checkbox" name="eventos_nodeposit") 
+                            input(type="submit" value="Guardar")
+            section.admin-sub#lecturas
+                table.admin-tabla 
+                    tr 
+                        th Libro
+                        th Facilita
+                        th Horario
+                        th Tipo
+                        th Estatus
+                        th Acciones
+                    each reading in readingsList 
+                        tr 
+                            td= reading.rdn_book
+                            td= reading.rdn_facilitator
+                            td= reading.rdn_schedule 
+                            td= reading.rdn_type
+                            td(data-status-id=reading.rdn_id data-section="lecturas")= reading.rdn_status ? "Activo" : "Inactivo"
+                            td 
+                                img.admin-apagador(src="/media/puntos/apagador.png" alt="apagar/encender" data-id=reading.rdn_id data-sec="lecturas" data-st=`${reading.rdn_status}`)
+                                img.admin-eliminador(src="/media/puntos/borrar.png" alt="borrar" data-id=reading.rdn_id data-sec="lecturas")
+                                img.admin-editor(src="/media/puntos/editar.png" alt="editar" data-id=reading.rdn_id data-sec="lecturas")
+                    tr 
+                        td(colspan="6")
+                .admin-btn-nuevo#lecturas-btn Nuevo
+                .admin-modal#lecturas-modal
+                    .admin-modal-content2
+                        span#lecturas-cerrar X
+                        form.admin-form#lecturas-form
+                            input(type="hidden" name="lecturas-hide" value="Guardar")
+                            .admin-label 
+                                label(for="lecturas-book") Libro:
+                                input#lecturas-book(type="text" name="lecturas_book" required)
+                            .admin-label 
+                                label(for="lecturas-author") Autor:
+                                input#lecturas-author(type="text" name="lecturas_author" required)
+                            .admin-label 
+                                label(for="lecturas-facilitator") Facilita:
+                                input#lecturas-facilitator(type="text" name="lecturas_facilitator" required)
+                            .admin-label 
+                                label(for="lecturas-schedule") Horario:
+                                input#lecturas-schedule(type="text" name="lecturas_schedule" required)
+                            .admin-label 
+                                label(for="lecturas-type") Tipo:
+                                select#lecturas-type(name="lecturas_type") 
+                                    option(value="Semanal") Semanal 
+                                    option(value="Quincenal") Quincenal 
+                                    option(value="Mensual") Mensual   
+                            input(type="submit" value="Guardar")
+            section.admin-sub#menu
+                h2 Gestión del menú
+                h3 Próximamente
+            section.admin-sub#clientes
+                table.admin-tabla
+                    tr 
+                        th Nombre 
+                        th Correo 
+                        th Celular
+                        th Cumpleaños 
+                        th Rango
+                        th Puntos
+                        th Estatus 
+                        th Acciones 
+                    each usuario in listaUsuarios
+                        if usuario.usr_role == "Cliente"
+                            - var datosCliente = null
+                            each cliente in listaClientes 
+                                if cliente.clt_id == usuario.usr_id
+                                    - datosCliente = cliente
+                            - var fechaFormateada = new Date(datosCliente.clt_birthday).toISOString().split('T')[0]
+                            tr 
+                                td= usuario.usr_name 
+                                td= usuario.usr_mail 
+                                td= datosCliente.clt_phone 
+                                td= fechaFormateada
+                                td= datosCliente.clt_rank 
+                                td= datosCliente.clt_points
+                                td(data-status-id=usuario.usr_id data-section="clientes")= usuario.usr_status ? "Activo" : "Inactivo"
+                                td
+                                    img.admin-apagador(src="/media/puntos/apagador.png" alt="apagar/encender" data-id=usuario.usr_id data-sec="clientes" data-st=`${usuario.usr_status}`)
+                                    img.admin-editor(src="/media/puntos/editar.png" alt="editar" data-id=usuario.usr_id data-sec="clientes")
+                    tr
+                        td(colspan="8")
+            section.admin-sub#admyemp
+                table.admin-tabla
+                    tr 
+                        th Nombre 
+                        th Correo 
+                        th Rol
+                        th Estatus 
+                        th Acciones 
+                    each user in listaUsuarios 
+                        if user.usr_role == "Administrador" || user.usr_role == "Empleado"
+                            tr 
+                                td= user.usr_name 
+                                td= user.usr_mail 
+                                td= user.usr_role
+                                td(data-status-id=user.usr_id data-section="admyemp")= user.usr_status ? "Activo" : "Inactivo"
+                                td
+                                    img.admin-apagador(src="/media/puntos/apagador.png" alt="apagar/encender" data-id=user.usr_id data-sec="admyemp" data-st=`${user.usr_status}`)
+                                    img.admin-editor(src="/media/puntos/editar.png" alt="editar" data-id=user.usr_id data-sec="admyemp")
+                    tr
+                        td(colspan="5")
+                .admin-btn-nuevo#admyemp-btn Nuevo
+                .admin-modal#admyemp-modal
+                    .admin-modal-content
+                        span#admyemp-cerrar X
+                        form.admin-form#admyemp-form 
+                            input(type="hidden" name="admyemp-hide" value="Guardar")
+                            .admin-label 
+                                label(for="admyemp-name") Nombre:
+                                input#admyemp-name(type="text" name="admyemp_name" required)
+                            .admin-label 
+                                label(for="admyemp-mail") Correo electrónico: 
+                                input#admyemp-mail(type="email" name="admyemp_mail" required) 
+                            .admin-label 
+                                label(for="admyemp-password") Contraseña: 
+                                input#admyemp-password(type="password" name="admyemp_password" required)
+                            .admin-label 
+                                label(for="admyemp-role") Administrador o empleado: 
+                                select#admyemp-role(name="admyemp_role")
+                                    option(value="Administrador") Administrador
+                                    option(value="Empleado") Empleado
+                            input(type="submit" value="Guardar")
+
+block extraScripts
+    script(src="/js/libs/sweetalert2.all.min.js")
+    script(type="module" src="/js/admins.js") 
+    script(type="module" src="/js/adminForms.js")
+    script(type="module" src="/js/adminModals.js") 
+    script(type="module" src="/js/admins/adminActions.js") 
+            
+            

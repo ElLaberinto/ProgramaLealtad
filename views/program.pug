@@ -1,0 +1,16 @@
+extends layout 
+
+block content 
+    main(class="main main-program")
+        img.program-img(src="/media/LogoLab.jpeg" alt="LOGO EL LABERINTO")
+        form.program-login#login-form
+            .program-login-input
+                label(for="user") Ingresa tu correo o número celular
+                input#user(type="text" name="USER" required)
+            .program-login-input
+                label(for="pass") Ingresa tu contraseña
+                input#pass(type="password" name="PASS" required)
+            input.program-login-submit(type="submit" value="Iniciar Sesión")
+block extraScripts 
+    script(src="/js/libs/sweetalert2.all.min.js")
+    script(type="module" src="/js/program.js") 

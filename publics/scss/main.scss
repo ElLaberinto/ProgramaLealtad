@@ -1,0 +1,47 @@
+// importaciones
+@use "index";
+@use "vars";
+
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
+
+// RESET
+
+*{
+    font-family: "Lato", sans-serif;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+a{
+    text-decoration: none;
+    color: inherit;
+}
+
+body{
+    background-color: var(--color-fondo);
+    position: relative;
+}
+
+img{
+    max-width: 100%;
+    max-height: 100%;
+}
+
+ul{
+    li{
+        list-style: none;
+    }
+}
+
+.main{
+    background: url("../media/Fondo.png");
+    background-size: 250px;
+    height: max(65vh, 455px);
+}
+
+@media (max-width: 600px){
+    .main{
+        height: max(80vh, 560px);
+    }
+}

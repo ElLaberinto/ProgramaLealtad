@@ -1,0 +1,26 @@
+extends layout 
+
+block content 
+    main(class = "main main-menu")
+        section.menu
+            each category in categoriesList
+                section.menu-categoria
+                    .menu-categoria-tit= category
+                    each product in menu 
+                        if product.mnu_category == category
+                            .menu-producto(data-nombre=product.mnu_name)
+                                .menu-texto1= product.mnu_name
+                                .menu-texto2= product.mnu_price 
+                                .menu-texto3= product.mnu_description       
+        
+        div(class="modal" id="modal")
+            .modal-content
+                span(class="cerrar" id="cerrar") X
+                img(id="modal-img" src='', alt="Producto")
+                h2#modal-nombre
+                h4#modal-precio
+
+block extraScripts
+    script(type="module", src="/js/menu.js") 
+
+

@@ -1,0 +1,87 @@
+@use "vars";
+
+.main-home{
+    display: grid;
+    grid-template-rows: auto max(50vh, 350px) auto;
+}
+
+.home-carrusel{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: max-content;
+
+    img {
+        height: 100%;
+        width: calc(90vw / 4);
+        object-fit: cover;
+        padding: 0.5rem;
+    }
+}
+
+.home-cont{
+    display: flex;
+    grid-row: 2;
+    width: 90vw;
+    height: 90%;
+    margin: auto;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+}
+
+.home-msj{
+    grid-row: 1;
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--color-text2);
+    padding-top: 1rem;
+    cursor: default;
+
+    .home-lab{
+        font-style: italic;
+    }
+}
+
+.home-pts{
+    grid-row: 3;
+    padding-left: 50%;
+    text-align: center;
+    font-size: 1.5rem;
+    font-style: oblique;
+    color: var(--color-text2);
+    cursor: default;
+}
+
+//RESPONSIVE TABLET
+
+@media (max-width: 1024px) {
+    .home-carrusel img {
+      width: 45vw;
+    }
+}
+
+
+
+// RESPONSIVE CELULAR
+
+@media (max-width: 600px) {
+    .home-carrusel img {
+      width: 90vw;
+    }
+
+    .home-msj{
+        padding-top: 2rem;
+        font-size: 1.5rem;
+
+        .home-lab{
+            display: block;
+        }
+    }
+
+    .home-pts{
+        font-size: 1rem;
+    }
+}

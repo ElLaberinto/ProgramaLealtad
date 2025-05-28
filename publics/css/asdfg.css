@@ -1,0 +1,136 @@
+a{
+    text-decoration: none;
+    color: inherit;
+}
+
+html{
+    width: 100vw;
+    height: 100vh;
+}
+
+img{
+    max-height: 100%;
+}
+
+input{
+    font-size: 1rem;
+}
+
+li{
+    list-style: none;
+    text-align: center;
+    display: inline;
+}
+
+li::before{
+    content: "";
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-image: url("../media/coffee-li.png");
+    background-size: 20px;
+}
+
+ul{
+    padding: 0;
+}
+
+.body{
+    margin: 0;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(191, 149, 239);
+    height: max(100vh,600px);
+    min-width: 1000px;
+}
+
+.center{
+    text-align: center;
+}
+
+.col1{
+    grid-column: 1;
+}
+
+.col2{
+    grid-column: 2;
+}
+
+.form-login{
+    display: flex;
+    height: 50%;
+    width: max(25vw, 250px);
+    border-radius: 5rem;
+    background-color: blueviolet;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.info{
+    width: max(100vw,1000px);
+    height: max(10vh, 100px);
+    background-color: rgba(128, 128, 128, 0.411);
+}
+
+.main{
+    width: max(100vw,1000px);
+    min-height: max(80vh, 400px);
+    background-image: url("../media/coffee-cups-fondo.png");
+    background-size: 160px;
+    display: grid;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.options{
+    width: max(100vw,1000px);
+    height: max(10vh, 100px);
+    background-color: rgba(54, 11, 98, 0.5);
+}
+
+.submit{
+    color: white;
+    background-color: rgb(90, 5, 100);
+}
+
+.tinny{
+    width: 25px;
+}
+
+
+
+.menu{
+    background-color: whitesmoke;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 10;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.6);
+}
+
+.modal-content{
+    background-color: white;
+  margin: 10% auto;
+  padding: 20px;
+  border-radius: 8px;
+  width: 80%;
+  max-width: 400px;
+  text-align: center;
+  position: relative;
+}
+  
+.cerrar {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 20px;
+    cursor: pointer;
+  }

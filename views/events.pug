@@ -1,0 +1,102 @@
+extends layout 
+block content 
+    main(class="main main-eventos")
+        section.eventos-lectura
+            .eventos-lectura-tit Círculos de Lectura
+            .eventos-lectura-semana
+                h4 Semanal
+                each reading in readingsList
+                    if reading.rdn_type == "Semanal" && reading.rdn_status
+                        div 
+                            span.eventos-texto2 Libro: 
+                            span.eventos-texto3= reading.rdn_book
+                        div 
+                            span.eventos-texto2 Autor: 
+                            span.eventos-texto3= reading.rdn_author
+                        div 
+                            span.eventos-texto2 Facilita: 
+                            span.eventos-texto3= reading.rnd_facilitator
+                        div 
+                            span.eventos-texto2 Horario: 
+                            span.eventos-texto3= reading.rdn_schedule
+            .eventos-lectura-quincena
+                h4 Quincenal
+                each reading in readingsList
+                    if reading.rdn_type == "Quincenal" && reading.rdn_status
+                        div 
+                            span.eventos-texto2 Libro: 
+                            span.eventos-texto3= reading.rdn_book
+                        div 
+                            span.eventos-texto2 Autor: 
+                            span.eventos-texto3= reading.rdn_author
+                        div 
+                            span.eventos-texto2 Facilita: 
+                            span.eventos-texto3= reading.rnd_facilitator
+                        div 
+                            span.eventos-texto2 Horario: 
+                            span.eventos-texto3= reading.rdn_schedule
+            .eventos-lectura-mes
+                h4 Mensual
+                each reading in readingsList
+                    if reading.rdn_type == "Mensual" && reading.rdn_status
+                        div 
+                            span.eventos-texto2 Libro: 
+                            span.eventos-texto3= reading.rdn_book
+                        div 
+                            span.eventos-texto2 Autor: 
+                            span.eventos-texto3= reading.rdn_author
+                        div 
+                            span.eventos-texto2 Facilita: 
+                            span.eventos-texto3= reading.rnd_facilitator
+                        div 
+                            span.eventos-texto2 Horario: 
+                            span.eventos-texto3= reading.rdn_schedule
+            a(href="https://api.whatsapp.com/send?phone=527225111979&text=Quiero%20inscribirme%20a%20un%20c%C3%ADrculo%20de%20lectura"
+                    target="_blank" class="eventos-lectura-btn") !Inscríbete aquí!
+        section.eventos-actuales 
+            .eventos-actuales-tit Eventos
+            ul.eventos-actuales-ul
+                each event in eventsList
+                    if event.evt_status
+                        li
+                            .eventos-texto1= event.evt_name
+                            div 
+                                span.eventos-texto2 Imparte: 
+                                span.eventos-texto3= event.evt_instructor
+                            div 
+                                span.eventos-texto2 Duración:
+                                if event.evt_duration == 1
+                                    span.eventos-texto3 Única sesión
+                                else 
+                                    span.eventos-texto3= event.evt_duration + " sesiones"
+                            div 
+                                span.eventos-texto2 Fechas:
+                                span.eventos-texto3= event.evt_dates
+                            div 
+                                span.eventos-texto2 Horarios:
+                                span.eventos-texto3= event.evt_schedules
+                            div 
+                                span.eventos-texto2 Costo:
+                                if event.evt_cost == 0
+                                    span.eventos-texto3 Gratis
+                                else 
+                                    if event.evt_deposit == 0
+                                        span.eventos-texto3= "$" + event.evt_cost
+                                    else 
+                                        span.eventos-texto3= "$" + event.evt_cost + " - Aparta tu lugar con: $" + event.evt_deposit
+            a(href="https://wa.me/527225111979?text=¡Quiero%20informes%20sobre%20un%20evento!"
+                    target="blank" class="eventos-actuales-btn") Informes e inscripciones (722) 511 1979
+        section.eventos-pasados#eventos-pasados Eventos pasados 
+        div(class="eventos-modal" id="eventos-modal")
+            .eventos-modal-content
+                span(class="cerrar" id="eventos-cerrar") X
+                ul.eventos-modal-ul 
+                    each event in eventsList 
+                        if !event.evt_status
+                            li
+                                .eventos-texto2= event.evt_name
+                                .eventos-tecto3= event.evt_dates
+
+block extraScripts
+    script(type="module", src="/js/events.js") 
+                

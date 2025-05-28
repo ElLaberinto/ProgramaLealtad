@@ -1,0 +1,46 @@
+@use "vars";
+
+.main-errores{
+    width: 100vw;
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 60vw 40vw;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--color-botones);
+}
+
+.errores-btn{
+    grid-row: 3;
+    grid-column: span 2;
+    place-self: center;
+    width: 20vw;
+    font-size: 2rem;
+    text-align: center;
+    background-color: var(--color-principal);
+    border: 2px solid var(--color-text2);
+    border-radius: 1rem;
+}
+
+.errores-img{
+    grid-row: span 2;
+    grid-column: 1;
+    place-self:  center;
+    width: 100%;
+}
+
+.errores-msj{
+    grid-row: 2;
+    grid-column: 2;
+    font-size: 2rem;
+    text-align: center;
+}
+
+.errores-tit{
+    grid-row: 1;
+    grid-column: 2;
+    font-size: 5rem;
+    font-weight: bolder;
+    text-align: center;
+    text-decoration: underline;
+}

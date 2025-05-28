@@ -1,0 +1,53 @@
+doctype html
+html(lang="es")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport" content="width=device-width, initial-scale=1.0")
+        link(rel="shortcut icon" href="/media/LogoLab.jpeg" type="image/x-icon")
+        link(rel="stylesheet" href="/css/styles.css")
+        title El Laberinto
+    body.body
+        span.header-ham#header-ham ☰
+        header.header#header
+            div.header-content
+                span.header-img
+                    img(src="/media/LogoLab.jpeg", alt="Logo_El_Laberinto")
+                nav.header-nav
+                    span.header-opt
+                        span.header-cup
+                            img.header-cup-img(src="" data-path="/")
+                        a(href="/") Inicio 
+                    span.header-opt
+                        span.header-cup
+                            img.header-cup-img(src="" data-path="/menu")
+                        a(href="/menu") Menú
+                    span.header-opt
+                        span.header-cup
+                            img.header-cup-img(src="" data-path="/eventos")
+                        a(href="/eventos") Eventos
+                    span.header-opt
+                        span.header-cup
+                            img.header-cup-img(src="" data-path="/programadepuntos")
+                        a(href="/programadepuntos") Programa de puntos 
+            span.header-cerrar#header-cerrar &times;
+        block content
+        footer.footer
+            nav.footer-nav
+                span.footer-opt
+                    a(href="https://maps.app.goo.gl/RMW8sosYeLDGtyn86"
+                    target="blank" )
+                        img.img-tinny(src="/media/footer/Ubi.png", alt="Ubicación")
+                        div Ubicación
+                span.footer-opt
+                    a(href="https://wa.me/+527226748160?text=¡Quiero+hacer+un+pedido!"
+                    target="blank" )
+                        img.img-tinny(src="/media/footer/Whatsapp.png", alt="Whatsapp")
+                        div Contáctanos 722 674 8160  
+                span.footer-opt 
+                    a(href="https://www.facebook.com/profile.php?id=100057237799105#"
+                    target="blank")
+                        img.img-tinny(src="/media/footer/Facebook.png", alt="Facebook")
+                        div Facebook
+        script(type="module", src="./js/main.js")
+        block extraScripts
+                        
