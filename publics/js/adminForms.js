@@ -15,6 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const schedules = document.getElementById("container-schedules");
     const newSchedule = document.getElementById("eventos-add-schedule");
     const readingsForm = document.getElementById("lecturas-form");
+    const formsTicket = document.querySelectorAll(".form-ticket")
 
     const formSubmit = (form, route) => {
         form.addEventListener("submit", async e => {
@@ -32,6 +33,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             });
             try {
+                console.log("Data: ", data);
+                /*
+                const allInputs = form.querySelectorAll("input[name]");
+                const inputs = allInputs.filter(input => input.name != hide);
+                */
                 const response = await fetch(route, {
                     method: "POST",
                     headers: { 'Content-Type': 'application/json' },
@@ -93,7 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const btnAdd = (btn, container, name) => {
         btn.addEventListener("click", () => {
             const div = document.createElement("div");
-            div.style.display = "flex"; 
+            div.style.display = "flex";
             div.style.flexDirection = "row"
             const input = document.createElement("input");
             input.type = "text";
@@ -121,5 +127,25 @@ document.addEventListener("DOMContentLoaded", () => {
     formSubmit(readingsForm, "/api/newReading");
 
     formSubmit(admYEmpForm, "/api/altaAdmnEmp");
+
+    formsTicket.forEach(form => {
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const form = e.target;
+            const formData = new FormData(form);
+            try {
+                const res = await fetch('/subirTicket', {
+                    method: 'POST',
+                    body: formData,
+                });
+                console.log("Res: ", res);
+                if(res.ok)
+                    Swal.fire({ title: 'Éxito', text: 'Compra registrada correctamente', icon: 'success'});
+                form.reset();
+                } catch (err) {
+                    Swal.fire("❌ Error al registrar compra", result.error || "No se pudo registrar correctamente", "error");
+                }
+            });
+    });
 
 });

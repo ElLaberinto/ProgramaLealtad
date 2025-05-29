@@ -15,5 +15,7 @@ rApis.post("/newEvent", cAdmins.addEvent);
 rApis.post("/newReading", cAdmins.addReading);
 rApis.patch("/apagador", cActions.apagador);
 rApis.delete("/eliminador", cActions.eliminador);
+rApis.get("/comparePassword", cProgram.comparePassword);
+rApis.patch("/editarCliente", cProgram.editarCliente);
 
 export default rApis;

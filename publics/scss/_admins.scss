@@ -114,8 +114,8 @@
     z-index: 10;
     left: 0;
     top: 0;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
     background-color: rgba(0,0,0,0.6);
 }
 
@@ -198,6 +198,10 @@
     position: relative;
     width: 75vw;
     overflow-y: auto;
+
+    .cerrar {
+        display: none;
+    }
 }
 
 .admin-tabla{
@@ -254,5 +258,74 @@
 
     li:hover{
         background-color: var(--color-principal);
+    }
+}
+
+
+@media (max-width: 600px){
+    .main-admin {
+        display: block;
+    }
+
+    .admin-btn-nuevo {
+        width: 40%;
+        top: 90%;
+    }
+
+    .admin-contenido {
+        display: none;
+        height: max(65vh, 455px);
+        width: 95vw;
+        margin: 0 auto;
+        translate: 0 10%;
+    }
+
+    .admin-form {
+        margin: 0;
+    }
+
+    .admin-nav {
+        margin: 0 auto;
+    }
+
+    .admin-opciones {
+        width: 100vw;
+        translate: 0 25%;
+    }
+
+    .admin-sub {
+        height: max(65vh, 455px);
+        width: 95vw;
+
+        .cerrar {
+            position: absolute;
+            top: 0;
+            right: 5%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 1.5rem;
+            width: 1.5rem;
+            font-size: 1rem;
+            background-color: var(--color-botones);
+            border: 1px solid var(--color-text2);
+            border-radius: 50%;
+            z-index: 2;
+            cursor: default;
+
+            &:hover {
+                background-color: var(--color-botones-hover);
+            }
+        }
+    }
+
+    .admin-tabla{
+        th {
+            font-size: 1rem;
+        }
+
+        td {
+            font-size: 0.6rem;
+        }
     }
 }

@@ -3,7 +3,7 @@ extends layout
 block content 
     main(class="main main-admin")
         section.admin-opciones
-            nav.admin-nav
+            nav.admin-nav#nav
                 a(href="#registro") Registrar compra 
                 a(href="#alta") Nuevo cliente 
                 a(href="#promos") Administrar promociones 
@@ -15,30 +15,33 @@ block content
                     a(href="#menu") Modificar menu
                     a(href="#clientes") Administrar clientes
                     a(href="#admyemp") Administradores y empleados
-        section.admin-contenido 
+        section.admin-contenido#contenedor
             section.admin-sub#registro 
-                form.admin-form(action="" method="post")
+                span.cerrar X
+                form.admin-form(class="form-ticket" enctype="multipart/form-data")
                     .admin-label
                         label(for="reg-cliente") Cliente: 
-                        input#reg-cliente(type="text" name="reg_client" required 
+                        input#reg-cliente(type="text" required 
                         autocomplete="off" placeholder="Nombre o celular del cliente")
                         ul.lista-filtro#lista-clientes-reg
+                        input#reg-hide(type="hidden" name="hide")
                     .admin-label 
                         label(for="reg-num") Número de ticket: 
                         input#reg-num(type="text" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" 
-                        minlength="6" name="reg_ticket" required)
+                        minlength="6" name="ticket" required)
                     .admin-label 
                         label(for="reg-tot") Total del importe: 
-                        input#reg-tot(type="number" min="0" step="0.01" name="reg_total" required)
+                        input#reg-tot(type="number" min="0" step="0.01" name="total" required)
                     .admin-label 
                         label(for="reg-pts") Puntos: 
-                        input#reg-pts(type="number" name="reg_points" readonly)
+                        input#reg-pts(type="number" name="points" readonly)
                     .admin-label-ticket
                         label(for="reg-img") Subir ticket:
-                        input#reg-img(type="file" accept="image/*" capture="environment" name="reg_img")
+                        input#reg-img(type="file" accept="image/*" capture="environment" name="img")
                         img#preview-reg(src="" alt="Vista previa del ticket")
                     input(type="submit" value="Guardar")
             section.admin-sub#alta
+                span.cerrar X
                 form.admin-form#alta-form(action="")
                     .admin-label 
                         label(for="alta-nom") Nombre: 
@@ -64,6 +67,7 @@ block content
                                     option(value=`${rank.ran_name}`)= rank.ran_name 
                     input(type="submit" value="Guardar")
             section.admin-sub#promos
+                span.cerrar X
                 table.admin-tabla 
                     tr
                         th Descripción 
@@ -92,7 +96,7 @@ block content
                     .admin-modal-content 
                         span#promos-cerrar X 
                         form.admin-form#promos-form
-                            input(type="hidden" name="promos-hide" value="Guardar")
+                            input(type="hidden" name="hide" value="Guardar")
                             .admin-label 
                                 label(for="promos-name") Descripción: 
                                 input#promos-name(type="text" name="promos_name" required)
@@ -107,6 +111,7 @@ block content
                                         input#promos-noexp(type="checkbox" name="promos_noexp")
                             input(type="submit" value="Guardar")
             section.admin-sub#rangos
+                span.cerrar X
                 table.admin-tabla 
                     tr
                         th Tipo de cliente
@@ -129,7 +134,7 @@ block content
                     .admin-modal-content 
                         span#rangos-cerrar X 
                         form.admin-form#rangos-form
-                            input(type="hidden" name="rangos-hide" value="Guardar")
+                            input(type="hidden" name="hide" value="Guardar")
                             .admin-label 
                                 label(for="rangos-name") Nombre: 
                                 input#rangos-name(type="text" name="rangos_name" required)
@@ -138,33 +143,36 @@ block content
                                 input#rangos-cash(type="number" name="rangos_cash" min="0" required)
                             input(type="submit" value="Guardar")
             section.admin-sub#redencion 
-                form.admin-form(action="" method="post") 
+                span.cerrar X
+                form.admin-form(class="form-ticket" enctype="multipart/form-data")
                     .admin-label
                         label(for="red-cliente") Cliente: 
-                        input#red-cliente(type="text" name="red_client" required 
+                        input#red-cliente(type="text" required 
                         autocomplete="off" placeholder="Nombre o celular del cliente")
                         ul.lista-filtro#lista-clientes-red
+                        input#red-hide(type="hidden" name="hide")
                     .admin-label
                         label(for="red-promo") Promoción: 
-                        input#red-promo(type="text" name="red_promo" required 
+                        input#red-promo(type="text" required 
                         autocomplete="off" placeholder="Promoción a canjear")
                         ul.lista-filtro#lista-promos-red
                     .admin-label
                         label(for="red-num") Número de ticket: 
-                        input#red-num(type="text" inputmode="numeric" pattern="\d{6}" maxlength="6" 
-                        minlength="6" name="red_ticket" required)
+                        input#red-num(type="text" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" 
+                        minlength="6" name="ticket" required)
                     .admin-label 
                         label(for="red-tot") Total del importe: 
-                        input#red-tot(type="number" min="0" step="0.01" name="red_total" required)
+                        input#red-tot(type="number" min="0" step="0.01" name="total" required)
                     .admin-label-ticket 
                         label(for="red-img") Subir ticket:
-                        input#red-img(type="file" accept="image/*" capture="environment" name="red_img")
+                        input#red-img(type="file" accept="image/*" capture="environment" name="img")
                         img#preview-red(src="" alt="Vista previa del ticket")
                     .admin-label 
                         label(for="red-pts") Puntos: 
-                        input#red-pts(type="number" name="red_points" readonly)
+                        input#red-pts(type="number" name="points" readonly)
                     input(type="submit" value="Guardar")
             section.admin-sub#eventos
+                span.cerrar X
                 table.admin-tabla 
                     tr 
                         th Nombre 
@@ -229,6 +237,7 @@ block content
                                         input#eventos-nodeposit(type="checkbox" name="eventos_nodeposit") 
                             input(type="submit" value="Guardar")
             section.admin-sub#lecturas
+                span.cerrar X
                 table.admin-tabla 
                     tr 
                         th Libro
@@ -255,7 +264,7 @@ block content
                     .admin-modal-content2
                         span#lecturas-cerrar X
                         form.admin-form#lecturas-form
-                            input(type="hidden" name="lecturas-hide" value="Guardar")
+                            input(type="hidden" name="hide" value="Guardar")
                             .admin-label 
                                 label(for="lecturas-book") Libro:
                                 input#lecturas-book(type="text" name="lecturas_book" required)
@@ -276,9 +285,11 @@ block content
                                     option(value="Mensual") Mensual   
                             input(type="submit" value="Guardar")
             section.admin-sub#menu
+                span.cerrar X
                 h2 Gestión del menú
                 h3 Próximamente
             section.admin-sub#clientes
+                span.cerrar X
                 table.admin-tabla
                     tr 
                         th Nombre 
@@ -310,6 +321,7 @@ block content
                     tr
                         td(colspan="8")
             section.admin-sub#admyemp
+                span.cerrar X
                 table.admin-tabla
                     tr 
                         th Nombre 

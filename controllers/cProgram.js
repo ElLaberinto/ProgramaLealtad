@@ -6,6 +6,9 @@ import mBuys from "../models/mBuys.js";
 import mEvents from "../models/mEvents.js";
 import mReadings from "../models/mReadings.js";
 
+import hasheador from "../utils/hasheo.js"
+import cloudinary from "../databases/cloudinary.js";
+
 import error from "../middlewares/errors.js"
 
 
@@ -14,28 +17,28 @@ const cProgram = {
         const usuario = req.data;
         req.session.usuario = usuario;
         try {
-            if(usuario.usr_role === "Cliente") {
+            if (usuario.usr_role === "Cliente") {
                 return res.json({ success: true, rol: "Cliente" });
             } else {
                 return res.json({ success: true, rol: "Admin" });
             }
-        } catch(err) {
+        } catch (err) {
             return res.status(500).json({ error: "Error del servidor" });
         }
     },
     loginCliente: async (req, res) => {
-        try{
+        try {
             const usuario = req.session.usuario;
             const cliente = await mClientes.getOne(usuario.usr_id);
             const listaPromos = await mPromos.getActives();
             const buysList = await mBuys.getByClient(usuario.usr_id);
-        res.render("client", { usuario, cliente, listaPromos, buysList });
-        } catch(err) {
+            res.render("client", { usuario, cliente, listaPromos, buysList });
+        } catch (err) {
             error.e500(req, res, err);
-        } 
+        }
     },
     loginAdmin: async (req, res) => {
-        try{
+        try {
             const usuario = req.session.usuario;
             const listaUsuarios = await mUsers.getAll();
             const listaClientes = await mClientes.getAll();
@@ -43,70 +46,158 @@ const cProgram = {
             const ranksList = await mRanks.getAll();
             const eventsList = await mEvents.getAll();
             const readingsList = await mReadings.getAll();
-        res.render("admin", { usuario, listaPromos, listaUsuarios, listaClientes, ranksList, eventsList, readingsList});
-        } catch(err) {
+            res.render("admin", { usuario, listaPromos, listaUsuarios, listaClientes, ranksList, eventsList, readingsList });
+        } catch (err) {
             error.e500(req, res, err);
-        } 
+        }
+    },
+    logout: async (req, res) => {
+        req.session.destroy(err => {
+            if (err) {
+                console.error('Error al cerrar sesión:', err);
+                return res.status(500).send('Error al cerrar sesión');
+            }
+            res.clearCookie('connect.sid');
+            res.redirect('/programadepuntos');
+        });
     },
     autocompletarClientes: async (req, res) => {
         const { q } = req.query;
-        try{
+        try {
             const listaUsuarios = await mUsers.getActiveClients();
 
-        const resultados = [];
+            const resultados = [];
 
-        for (const usuario of listaUsuarios) {
-            const cliente = await mClientes.getOne(usuario.usr_id);
-            const match =
-                usuario.usr_name.toLowerCase().includes(q.toLowerCase()) ||
-                usuario.usr_mail.toLowerCase().includes(q.toLowerCase()) ||
-                cliente.clt_phone.includes(q);
+            for (const usuario of listaUsuarios) {
+                const cliente = await mClientes.getOne(usuario.usr_id);
+                const match =
+                    usuario.usr_name.toLowerCase().includes(q.toLowerCase()) ||
+                    usuario.usr_mail.toLowerCase().includes(q.toLowerCase()) ||
+                    cliente.clt_phone.includes(q);
 
-            if (match) {
-                const rango = await mRanks.getOneName(cliente.clt_rank);
-                let cashback = null;
-                if(rango.ran_status)
-                    cashback = rango.ran_cashback;
-                else cashback = -100;
-                const objeto = {
-                    id: usuario.usr_id,
-                    name: usuario.usr_name,
-                    mail: usuario.usr_mail,
-                    phone: cliente.clt_phone,
-                    birthday: cliente.clt_birthday,
-                    points: cliente.clt_points,
-                    rank: cliente.clt_rank,
-                    cashback: cashback
-                };
-                resultados.push(objeto);
+                if (match) {
+                    const rango = await mRanks.getOneName(cliente.clt_rank);
+                    let cashback = null;
+                    if (rango.ran_status)
+                        cashback = rango.ran_cashback;
+                    else cashback = -100;
+                    const objeto = {
+                        id: usuario.usr_id,
+                        name: usuario.usr_name,
+                        mail: usuario.usr_mail,
+                        phone: cliente.clt_phone,
+                        birthday: cliente.clt_birthday,
+                        points: cliente.clt_points,
+                        rank: cliente.clt_rank,
+                        cashback: cashback
+                    };
+                    resultados.push(objeto);
+                }
             }
-        }
             res.json(resultados);
-        }catch(err){
+        } catch (err) {
             error.e500(req, res, err);
         }
     },
     autocompletarPromos: async (req, res) => {
         const { q, p } = req.query;
         const points = Number(p);
-        try{
+        try {
             const listaPromos = await mPromos.getActives();
-        const resultados = [];
-        for (const promo of listaPromos) {
-            const match =
-                promo.pro_name.toLowerCase().includes(q.toLowerCase()) && promo.pro_points <= points
-            if (match) {
-                const objeto = {
-                    id: promo.pro_id,
-                    name: promo.pro_name,
-                    points: promo.pro_points
-                };
-                resultados.push(objeto);
+            const resultados = [];
+            for (const promo of listaPromos) {
+                const match =
+                    promo.pro_name.toLowerCase().includes(q.toLowerCase()) && promo.pro_points <= points
+                if (match) {
+                    const objeto = {
+                        id: promo.pro_id,
+                        name: promo.pro_name,
+                        points: promo.pro_points
+                    };
+                    resultados.push(objeto);
+                }
             }
-        }
             res.json(resultados);
-        }catch(err){
+        } catch (err) {
             error.e500(req, res, err);
+        }
+    },
+    comparePassword: async (req, res) => {
+        const { p, h } = req.query;
+        try {
+            const okey = await hasheador.compare(p, h);
+            if (okey) res.json({ success: true });
+            else res.json({ success: false, error: "Contraseña incorrecta" });
+        } catch (err) {
+            res.json({ success: false, error: err });
+        }
+    },
+    editarCliente: async (req, res) => {
+        const { cambiosUser, cambiosClient, originalMail } = req.body;
+        let problem = false;
+        const cambiaUser = Object.keys(cambiosUser).length > 0
+        const cambiaClient = Object.keys(cambiosClient).length > 0
+        try {
+            if (cambiosUser.usr_mail) {
+                console.log("Primer problem");
+                problem = await mUsers.repeatedMail(cambiosUser.usr_mail);
+            }
+            if (problem) {
+                res.json({ success: false, error: "Correo en uso" });
+                return;
+            }
+            if (cambiosClient.clt_phone) {
+                console.log("Segundo problem");
+                problem = await mClientes.repeatedPhone(cambiosClient.clt_phone);
+            }
+            if (problem) {
+                req.json({ success: false, error: "Celular ya registrado" });
+                return;
+            }
+            const user = await mUsers.getByMail(originalMail);
+            if (cambiaClient) {
+                await mClientes.edit(user.usr_id, cambiosClient);
+            }
+            if (cambiaUser) {
+                if (cambiosUser.usr_password) {
+                    const hashedPassword = await hasheador.hash(cambiosUser.usr_password);
+                    cambiosUser.usr_password = hashedPassword
+                }
+                await mUsers.edit(user.usr_id, cambiosUser);
+            }
+            res.json({ success: true });
+        } catch (err) {
+            res.json({ success: false, error: err });
+        }
+    },
+    subirTicket: async (req, res) => {
+        try {
+            const file = req.file;
+            console.log("Después del file");
+            const { hide, total, ticket, points } = req.body;
+            const date = new Date().toISOString().split('T')[0];
+            console.log("body: ", req.body);
+            console.log("Date: ", date);
+            const streamUpload = () =>
+                new Promise((resolve, reject) => {
+                    const stream = cloudinary.uploader.upload_stream(
+                        { folder: 'TicketsPrueba' },
+                        (error, result) => {
+                            if (error) reject(error);
+                            else resolve(result);
+                        }
+                    );
+                    stream.end(file.buffer);
+                });
+            const resultado = await streamUpload();
+            const url = resultado.secure_url;
+            console.log("Url: ", url);
+            await mBuys.insert(hide, total, ticket, date, points, url);
+            await mClientes.editPoints(hide, points);
+            res.status(200).json({ mensaje: 'Ticket subido correctamente' });
+        } catch (err) {
+            console.error(err);
+            res.status(500).json({ error: 'Error al subir imagen' });
         }
     }
 };

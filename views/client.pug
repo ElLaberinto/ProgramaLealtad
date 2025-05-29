@@ -3,12 +3,14 @@ extends layout
 block content 
     main(class="main main-cliente")
         section.cliente-opciones
-            nav.cliente-nav
-                a(href="#perfil") Mi perfil 
-                a(href="#puntos") Mis puntos
-                a(href="#historial") Mi historial de compras
-        section.cliente-contenido 
+            nav.cliente-nav#nav
+                a#aperfil(href="#perfil") Mi perfil 
+                a#apuntos(href="#puntos") Mis puntos
+                a#ahistorial(href="#historial") Mi historial de compras
+        section.cliente-contenido#contenido
+            .cliente-logout#logout Cerrar sesión
             section.cliente-sub#perfil
+                span.cerrar X
                 label
                     div.cliente-texto2 Nombre: 
                     .cliente-texto1= usuario.usr_name
@@ -22,24 +24,30 @@ block content
                 label
                     div.cliente-texto2 Cumpleaños:
                     .cliente-texto1= fechaFormateada
-                .cliente-editar-btn Editar información
+                .cliente-editar-btn(data-hashed-password=usuario.usr_password) Editar información
                 .cliente-editar-modal 
                     .cliente-editar-contenido 
-                        form(action="")
+                        form#editar-form
                             span.cliente-editar-cerrar X
                             label(for="name") Nombre: 
-                            input#name(type="text" name="name" value=`${usuario.usr_name}`)
+                            input#name(type="text" name="name" value=`${usuario.usr_name}` data-original=`${usuario.usr_name}` 
+                            data-name="Nombre" data-field="usr_name" required)
                             label(for="phone") Celular: 
                             input#phone(type="text" inputmode="numeric" pattern="[0-9]{10}" maxlength="10" 
-                            minlength="10" name="phone" value=`${cliente.clt_phone}`)
+                            minlength="10" name="phone" value=`${cliente.clt_phone}` data-original=`${cliente.clt_phone}` 
+                            data-name="Número celular" data-field="clt_phone" required)
                             label(for="mail") Correo: 
-                            input#mail(type="email" name="mail" value=`${usuario.usr_mail}`) 
+                            input#mail(type="email" name="mail" value=`${usuario.usr_mail}` data-original=`${usuario.usr_mail}` 
+                            data-name="Correo electrónico" data-field="usr_mail" required) 
                             label(for="birthday") Cumpleaños: 
-                            input#birthday(type="date" name="birthday" value=`${fechaFormateada}`) 
+                            input#birthday(type="date" name="birthday" value=`${fechaFormateada}` data-original=`${fechaFormateada}` 
+                            data-name="Fecha de nacimiento" data-field="clt_birthday" required) 
                             label(for="password") Nueva contraseña: 
-                            input#password(type="password" name="password" value="******")
+                            input#password(type="password" name="password" value="******" data-original="******"
+                            data-name="Contraseña" data-field="usr_password" required)
                             input(type="submit" value="Guardar cambios")
             section.cliente-sub#puntos 
+                span.cerrar X
                 label
                     div.cliente-texto2 Mis puntos: 
                     .cliente-texto1= cliente.clt_points
@@ -52,6 +60,7 @@ block content
                     if i == 0
                         .cliente-texto3 Por ahora no alcanzas ninguna promoción, sigue acumulando puntos y descubre nuestras grandiosas promociones.
             section.cliente-sub#historial
+                span.cerrar X
                 h3.cliente-texto1 Historial de compras 
                 table.cliente-tabla 
                     tr
@@ -59,9 +68,10 @@ block content
                         th.cliente-texto2 Monto
                         th.cliente-texto2 Puntos
                         th.cliente-texto2 Ticket 
-                    each buy in buysList 
+                    each buy in buysList
+                        - var fechaFormateada = new Date(buy.buy_date).toISOString().split('T')[0]
                         tr 
-                            td.cliente-texto3= buy.buy_date
+                            td.cliente-texto3= fechaFormateada
                             td.cliente-texto3= buy.buy_total
                             td.cliente-texto3= buy.buy_points
                             td
@@ -69,6 +79,7 @@ block content
                                     img.cliente-tabla-img(src="/media/camara.jpeg", alt="ticket")
 
 block extraScripts
+    script(src="/js/libs/sweetalert2.all.min.js")
     script(type="module" src="/js/clients.js") 
 
                 

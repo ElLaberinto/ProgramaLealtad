@@ -28,15 +28,21 @@ const mClientes = {
             throw { status:500 };
         }
     },
-    edit: async (id) => {
+    edit: async (id, newFields) => {
         try{
+            console.log("Id: ", id);
             const allowedFields = ['clt_phone', 'clt_birthday'];
+            console.log("newFields: ", newFields);
             const keys = Object.keys(newFields).filter(key => allowedFields.includes(key));
+            console.log("Keys: ", keys);
             if (keys.length === 0) throw { status: 400, message: "Campos inválidos para actualizar" };
             const setClause = keys.map((key, idx) => `${key} = $${idx + 2}`).join(', ');
-            const values = keys.map(k => fields[k]);
-            const result = await pool.query(`UPDATE dbc.USERS SET ${setClause}
+            console.log("Clausula: ", setClause);
+            const values = keys.map(k => newFields[k]);
+            console.log("Values: ", values);
+            const result = await pool.query(`UPDATE dbc.CLIENTS SET ${setClause}
                                         WHERE clt_id = $1`, [id, ...values]);
+            console.log("antes del return");
             return result.rowCount;
         } catch(err) {
             throw { status:500 };
@@ -44,9 +50,18 @@ const mClientes = {
     },
     editRank: async (id, newRank) => {
         try{
-            pool.query(`UPDATE dbc.CLIENTS
-                    SET clt_rank = $2
-                    WHERE clt_id = $1`, [id, newRank]);
+            await pool.query(`UPDATE dbc.CLIENTS
+                        SET clt_rank = $2
+                        WHERE clt_id = $1`, [id, newRank]);
+        } catch(err) {
+            throw { status:500 };
+        }
+    },
+    editPoints: async (id, points) => {
+        try{
+            await pool.query(`UPDATE dbc.CLIENTS
+                        SET clt_points = clt_points + $2
+                        WHERE clt_id = $1`, [id, points]);
         } catch(err) {
             throw { status:500 };
         }

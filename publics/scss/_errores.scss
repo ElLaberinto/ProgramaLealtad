@@ -14,7 +14,7 @@
     grid-row: 3;
     grid-column: span 2;
     place-self: center;
-    width: 20vw;
+    width: max(20vw, 200px);
     font-size: 2rem;
     text-align: center;
     background-color: var(--color-principal);
@@ -43,4 +43,20 @@
     font-weight: bolder;
     text-align: center;
     text-decoration: underline;
+}
+
+@media (max-width: 600px){
+    .main-errores{
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .errores-msj{
+        font-size: 1.5rem;
+    }
+
+    .errores-tit{
+        font-size: 4rem;
+    }
 }

@@ -54,4 +54,34 @@ document.addEventListener("DOMContentLoaded", () => {
         modalAdmYEmp.style.display = "none";
     });
 
+    if(window.innerWidth <= 600 ) {
+        const botones = document.querySelectorAll(".admin-nav a");
+        const contenedor = document.getElementById("contenedor");
+        const nav = document.getElementById("nav");
+        const btnCerrar = document.querySelectorAll(".cerrar");
+
+        const pressBtn = (btn) => {
+            btn.addEventListener("click", (e) => {
+                e.preventDefault();
+                contenedor.style.display = "block";
+                nav.style.display = "none";
+                requestAnimationFrame(() => {
+                    const target = document.querySelector(btn.getAttribute('href'));
+                    target.scrollIntoView({ behavior: 'smooth' });
+                });
+            });
+        }
+
+        botones.forEach(btn => {
+            pressBtn(btn);
+        });
+
+        btnCerrar.forEach(btn => {
+            btn.addEventListener("click", () => {
+                contenedor.style.display = "none";
+                nav.style.display = "flex";
+            });
+        });
+    }
+
 });

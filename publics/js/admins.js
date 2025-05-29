@@ -5,6 +5,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const listaClientesReg = document.getElementById("lista-clientes-reg")
     const inputTotalReg = document.getElementById("reg-tot");
     const inputPuntosReg = document.getElementById("reg-pts");
+    const inputHideReg = document.getElementById("reg-hide");
 
     const inputTicketRed = document.getElementById("red-img");
     const previewTicketRed = document.getElementById("preview-red");
@@ -13,6 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const inputPromoRed = document.getElementById("red-promo");
     const listaPromosRed = document.getElementById("lista-promos-red");
     const inputPuntosRed = document.getElementById("red-pts");
+    const inputHideRed = document.getElementById("red-hide");
 
     let clientes = [];
     let promos = [];
@@ -31,7 +33,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const calcularPuntos = () => {
         const total = parseFloat(inputTotalReg.value);
         if(clienteSeleccionado && !isNaN(total)) {
-            inputPuntosReg.value = (total * clienteSeleccionado.cashback / 100).toFixed(2);
+            inputPuntosReg.value = Math.round((total * clienteSeleccionado.cashback / 100));
         } else {
             inputPuntosReg.value = "";
         }
@@ -40,14 +42,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const obtenerPuntos = () => {
         const promo = inputPromoRed.value;
         if(promo) {
-            const points = parseFloat(promo.split(",")[1].trim()).toFixed(2);
+            const points = Math.round(parseFloat(-promo.split(",")[1].trim()));
             inputPuntosRed.value = points;
         } else {
             inputPuntosRed.value = "";
         }
     }
     
-    const completarClientes = async (input, lista, funcionPuntos) => {
+    const completarClientes = async (input, lista, funcionPuntos, inputHide) => {
         const query = input.value;
         if(query.length < 3){
             lista.innerHTML = "";
@@ -64,6 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 clienteSeleccionado = cliente;
                 lista.innerHTML = "";
                 funcionPuntos();
+                inputHide.value = cliente.id;
             });
             lista.appendChild(li);
         })
@@ -82,7 +85,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     inputClienteReg.addEventListener("input", debounce (() => {
-        completarClientes(inputClienteReg, listaClientesReg, calcularPuntos);         
+        completarClientes(inputClienteReg, listaClientesReg, calcularPuntos, inputHideReg);         
     }, 500));
 
     inputTotalReg.addEventListener("input", debounce(calcularPuntos, 500));
@@ -100,7 +103,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     inputClienteRed.addEventListener("input", debounce (() => {
-        completarClientes(inputClienteRed, listaClientesRed, obtenerPuntos);         
+        completarClientes(inputClienteRed, listaClientesRed, obtenerPuntos, inputHideRed);         
     }, 500));
 
     inputPromoRed.addEventListener("input", async () => {
