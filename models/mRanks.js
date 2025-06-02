@@ -66,10 +66,33 @@ const mRanks = {
             throw { status:500 };
         }
     },
+    edit: async (id, newFields) => {
+        try{
+            const allowedFields = ['ran_name', 'ran_cashback'];
+            const keys = Object.keys(newFields).filter(key => allowedFields.includes(key));
+            if (keys.length === 0) throw { status: 400, message: "Campos inválidos para actualizar" };
+            const setClause = keys.map((key, idx) => `${key} = $${idx + 2}`).join(', ');
+            const values = keys.map(k => newFields[k]);
+            const result = await pool.query(`UPDATE dbc.RANKS SET ${setClause}
+                                        WHERE ran_id = $1`, [id, ...values]);
+            return result.rowCount;
+        } catch(err) {
+            throw { status:500 };
+        }
+    },
     delete: async (id) => {
         try{
             const result = await pool.query(`DELETE FROM dbc.RANKS 
                                         WHERE ran_id = $1`, [id]);
+            return result.rowCount;
+        } catch(err) {
+            throw { status:500 };
+        }
+    },
+    repeatedName: async (name) => {
+        try{
+            const result = await pool.query(`SELECT * FROM dbc.RANKS
+                                        WHERE ran_name = $1`, [name]);
             return result.rowCount;
         } catch(err) {
             throw { status:500 };

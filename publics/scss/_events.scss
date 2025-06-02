@@ -55,6 +55,7 @@
     }
 }
 
+
 .eventos-lectura{
     display: flex;
     flex-direction: column;
@@ -99,6 +100,17 @@
 
     div{
         margin-left: 5px;
+    }
+
+    .separador{
+        margin: 0;
+        height: 1px;
+        width: 100%;
+        background-color: var(--color-text2);
+    }
+
+    .separador:last-child {
+        height: 0;
     }
 }
 

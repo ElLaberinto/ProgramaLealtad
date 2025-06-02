@@ -15,7 +15,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const schedules = document.getElementById("container-schedules");
     const newSchedule = document.getElementById("eventos-add-schedule");
     const readingsForm = document.getElementById("lecturas-form");
-    const formsTicket = document.querySelectorAll(".form-ticket")
+    const formsTicket = document.querySelectorAll(".form-ticket");
+    const clientsForm = document.getElementById("clientes-form");
 
     const formSubmit = (form, route) => {
         form.addEventListener("submit", async e => {
@@ -33,23 +34,49 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             });
             try {
-                console.log("Data: ", data);
-                /*
-                const allInputs = form.querySelectorAll("input[name]");
-                const inputs = allInputs.filter(input => input.name != hide);
-                */
-                const response = await fetch(route, {
-                    method: "POST",
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(data)
-                });
-                const text = await response.text();
-                const result = JSON.parse(text);
-                if (result.success) {
-                    Swal.fire("✅ Agregado correctamente", result.message || "", "success");
-                    form.reset();
+                if (data.hide == "Guardar") {
+                    const response = await fetch(route, {
+                        method: "POST",
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(data)
+                    });
+                    const text = await response.text();
+                    const result = JSON.parse(text);
+                    if (result.success) {
+                        Swal.fire("✅ Agregado correctamente", result.message || "", "success");
+                        form.reset();
+                    } else {
+                        Swal.fire("❌ Error al agregar", result.message || "No se pudo agregar correctamente", "error");
+                    }
+                } else if (data.hide == "Editar") {             
+                    const allInputs = form.querySelectorAll("input[name]");
+                    const inputs = Array.from(allInputs).filter(input => input.type != "hidden");
+                    const select = form.querySelector("select");
+                    inputs.forEach(input => { if(input.type == "checkbox") input.value = input.checked ? "on" : "off"; });
+                    const arrayInputs = inputs.map(input => ({ name: input.name, value: input.value, 
+                        original: input.dataset.original, dbName: input.dataset.dbName }));
+                    if(select) {
+                        arrayInputs.push({ name: select.name, value: select.value, original: select.dataset.original, dbName: select.dataset.dbName });
+                    }
+                    const inputHide = form.querySelector(`input[type="hidden"]`);
+                    const id = data.id;
+                    const section = inputHide.dataset.section;
+                    const response = await fetch(`/api/editor?id=${id}&section=${section}`, {
+                        method: "PATCH",
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(arrayInputs)
+                    });
+                    if(!response.ok) return Swal.fire("❌ Error al editar", "Hubo un error interno con la edición");
+                    const result = await response.json();
+                    console.log("Result", result);
+                    if(!result.success) return Swal.fire("❌ Error al editar", result.message);
+                    Swal.fire("✅ Editado correctamente", "Reiniciando sesión para ver cambios")
+                        .then(() => {
+                            localStorage.setItem('redirectSection', section);
+                            window.location.replace("/admins");
+                        });
                 } else {
-                    Swal.fire("❌ Error al agregar", result.error || "No se pudo agregar correctamente", "error");
+                    Swal.fire({ icon: 'error', title: 'Error', text: "Error en la información" });
                 }
             } catch (err) {
                 Swal.fire({ icon: 'error', title: 'Error al registrar', text: err.message });
@@ -96,7 +123,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    const btnAdd = (btn, container, name) => {
+    const btnAdd = (btn, container, name, dbname) => {
         btn.addEventListener("click", () => {
             const div = document.createElement("div");
             div.style.display = "flex";
@@ -105,6 +132,8 @@ document.addEventListener("DOMContentLoaded", () => {
             input.type = "text";
             input.name = name;
             input.required = true;
+            input.dataset.original = "";
+            input.dataset.dbName = dbname;
             const btn = document.createElement("button");
             btn.innerText = "X";
             btn.style.position = "absolute";
@@ -118,13 +147,15 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    btnAdd(newDate, dates, "eventos_dates[]");
+    btnAdd(newDate, dates, "eventos_dates[]", "evt_dates");
 
-    btnAdd(newSchedule, schedules, "eventos_schedules[]");
+    btnAdd(newSchedule, schedules, "eventos_schedules[]", "evt_schedules");
 
     formSubmit(eventsForm, "/api/newEvent");
 
     formSubmit(readingsForm, "/api/newReading");
+
+    formSubmit(clientsForm, "");
 
     formSubmit(admYEmpForm, "/api/altaAdmnEmp");
 
@@ -138,14 +169,13 @@ document.addEventListener("DOMContentLoaded", () => {
                     method: 'POST',
                     body: formData,
                 });
-                console.log("Res: ", res);
-                if(res.ok)
-                    Swal.fire({ title: 'Éxito', text: 'Compra registrada correctamente', icon: 'success'});
+                if (res.ok)
+                    Swal.fire({ title: 'Éxito', text: 'Compra registrada correctamente', icon: 'success' });
                 form.reset();
-                } catch (err) {
-                    Swal.fire("❌ Error al registrar compra", result.error || "No se pudo registrar correctamente", "error");
-                }
-            });
+            } catch (err) {
+                Swal.fire("❌ Error al registrar compra", result.error || "No se pudo registrar correctamente", "error");
+            }
+        });
     });
 
 });

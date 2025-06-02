@@ -9,6 +9,21 @@
     position: relative;
 }
 
+.header-admin{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    background-color: red;
+
+    a{
+        display: block;
+        width: 100%;
+        height: 100%;
+    }
+}
+
 .header-cerrar{
     display: none;
     position: absolute;

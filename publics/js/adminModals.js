@@ -2,24 +2,39 @@ document.addEventListener("DOMContentLoaded", () => {
     const abrirModalPromos = document.getElementById("promos-btn");
     const modalPromos = document.getElementById("promos-modal");
     const cerrarModalPromos = document.getElementById("promos-cerrar");
+    const formPromos = document.getElementById("promos-form");
+    const inputHidePromos = document.querySelector("#promos-form input[type=hidden]");
 
     const abrirModalRangos = document.getElementById("rangos-btn");
     const modalRangos = document.getElementById("rangos-modal");
     const cerrarModalRangos = document.getElementById("rangos-cerrar");
+    const formRangos = document.getElementById("rangos-form");
+    const inputHideRangos = document.querySelector("#rangos-form input[type=hidden]");
 
     const abrirModalEventos = document.getElementById("eventos-btn");
     const modalEventos = document.getElementById("eventos-modal");
     const cerrarModalEventos = document.getElementById("eventos-cerrar");
+    const formEventos = document.getElementById("eventos-form");
+    const inputHideEventos = document.querySelector("#eventos-form input[type=hidden]");
 
     const abrirModalLecturas = document.getElementById("lecturas-btn");
     const modalLecturas = document.getElementById("lecturas-modal");
     const cerrarModalLecturas = document.getElementById("lecturas-cerrar");
+    const formLecturas = document.getElementById("lecturas-form");
+    const inputHideLecturas = document.querySelector("#lecturas-form input[type=hidden]");
+
+    const modalClientes = document.getElementById("clientes-modal");
+    const cerrarModalClientes = document.getElementById("clientes-cerrar");
 
     const abrirModalAdmYEmp = document.getElementById("admyemp-btn");
     const modalAdmYEmp = document.getElementById("admyemp-modal");
     const cerrarModalAdmYEmp = document.getElementById("admyemp-cerrar");
+    const formAdmYEmp = document.getElementById("admyemp-form");
+    const inputHideAdmYEmp = document.querySelector("#admyemp-form input[type=hidden]");
 
     abrirModalPromos.addEventListener("click", () => {
+        formPromos.reset();
+        inputHidePromos.value = "Guardar";
         modalPromos.style.display = "block";
     });
     cerrarModalPromos.addEventListener("click", () => {
@@ -27,6 +42,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     abrirModalRangos.addEventListener("click", () => {
+        formRangos.reset();
+        inputHideRangos.value = "Guardar";
         modalRangos.style.display = "block";
     });
     cerrarModalRangos.addEventListener("click", () => {
@@ -34,6 +51,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     abrirModalEventos.addEventListener("click", () => {
+        formEventos.reset();
+        inputHideEventos.value = "Guardar";
         modalEventos.style.display = "block";
     });
     cerrarModalEventos.addEventListener("click", () => {
@@ -41,13 +60,21 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     abrirModalLecturas.addEventListener("click", () => {
+        formLecturas.reset();
+        inputHideLecturas.value = "Guardar";
         modalLecturas.style.display = "block";
     });
     cerrarModalLecturas.addEventListener("click", () => {
         modalLecturas.style.display = "none";
     });
 
+    cerrarModalClientes.addEventListener("click", () => {
+        modalClientes.style.display = "none";
+    });
+
     abrirModalAdmYEmp.addEventListener("click", () => {
+        formAdmYEmp.reset();
+        inputHideAdmYEmp.value = "Guardar";
         modalAdmYEmp.style.display = "block";
     });
     cerrarModalAdmYEmp.addEventListener("click", () => {

@@ -19,6 +19,7 @@ block content
                         div 
                             span.eventos-texto2 Horario: 
                             span.eventos-texto3= reading.rdn_schedule
+                        .separador
             .eventos-lectura-quincena
                 h4 Quincenal
                 each reading in readingsList
@@ -35,6 +36,7 @@ block content
                         div 
                             span.eventos-texto2 Horario: 
                             span.eventos-texto3= reading.rdn_schedule
+                        .separador
             .eventos-lectura-mes
                 h4 Mensual
                 each reading in readingsList
@@ -47,10 +49,11 @@ block content
                             span.eventos-texto3= reading.rdn_author
                         div 
                             span.eventos-texto2 Facilita: 
-                            span.eventos-texto3= reading.rnd_facilitator
+                            span.eventos-texto3= reading.rdn_facilitator
                         div 
                             span.eventos-texto2 Horario: 
                             span.eventos-texto3= reading.rdn_schedule
+                        .separador
             a(href="https://api.whatsapp.com/send?phone=527225111979&text=Quiero%20inscribirme%20a%20un%20c%C3%ADrculo%20de%20lectura"
                     target="_blank" class="eventos-lectura-btn") !Inscríbete aquí!
         section.eventos-actuales 

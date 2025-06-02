@@ -58,6 +58,20 @@ const mReadings = {
             throw { status: 500 };
         }
     },
+    edit: async (id, newFields) => {
+        try{
+            const allowedFields = ['rdn_book', 'rdn_author', 'rdn_facilitator', 'rdn_schedule', 'rdn_type'];
+            const keys = Object.keys(newFields).filter(key => allowedFields.includes(key));
+            if (keys.length === 0) throw { status: 400, message: "Campos inválidos para actualizar" };
+            const setClause = keys.map((key, idx) => `${key} = $${idx + 2}`).join(', ');
+            const values = keys.map(k => newFields[k]);
+            const result = await pool.query(`UPDATE dbc.READINGS SET ${setClause}
+                                        WHERE rdn_id = $1`, [id, ...values]);
+            return result.rowCount;
+        } catch(err) {
+            throw { status:500 };
+        }
+    },
     delete: async (id) => {
         try{
             const result = await pool.query(`DELETE FROM dbc.READINGS

@@ -23,6 +23,7 @@
     border-radius: 0.5rem;
     width: max-content;
     margin: 2rem auto;
+    padding: 5px;
     cursor: pointer;
 }
 
@@ -115,6 +116,7 @@
     position: absolute;
     bottom: max(22vh, 154px);
     right: max(2vw, 20px);
+    z-index: 2;
     cursor: pointer;
 
     &:hover {

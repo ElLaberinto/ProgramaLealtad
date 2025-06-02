@@ -1,9 +1,9 @@
 const error = {
     //sin permiso para la ruta
-    e403: (req, res, err) => {
+    e403: (req, res) => {
         res.render("error", {
             title: "¡Error de acceso denegado!",
-            emjs: "Lo siento, no tienes la autorización para acceder a esta ruta"
+            emsj: "Lo siento, no tienes la autorización para acceder a esta ruta"
         });
     },
     //ruta no encontrada

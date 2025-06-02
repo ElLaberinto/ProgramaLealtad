@@ -14,15 +14,15 @@
 }
 @media (prefers-color-scheme: dark) {
   :root {
-    --color-fondo: rgb(0, 0, 0);
-    --color-principal: rgb(100, 0, 150);
-    --color-secundario: rgb(50, 0, 100);
-    --color-header: rgb(50, 0, 50);
-    --color-titulos: rgb(150, 50, 50);
-    --color-botones: rgb(150, 100, 150);
-    --color-botones-hover: rgb(100, 100, 150);
-    --color-text: rgb(150, 50, 250);
-    --color-text2: rgb(250, 250, 250);
+    --color-fondo: rgb(250, 220, 250);
+    --color-principal: rgb(183, 163, 207);
+    --color-secundario: rgb(254, 244, 223);
+    --color-header: rgb(154, 113, 177);
+    --color-titulos: rgb(113, 112, 179);
+    --color-botones: rgb(179, 22, 134);
+    --color-botones-hover: rgb(122, 11, 91);
+    --color-text: rgb(50, 0, 100);
+    --color-text2: rgb(0, 0, 0);
   }
 }
 
@@ -31,6 +31,20 @@
   background-color: var(--color-header);
   color: var(--color-text);
   position: relative;
+}
+
+.header-admin {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 20px;
+  height: 20px;
+  background-color: red;
+}
+.header-admin a {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
 .header-cerrar {
@@ -471,6 +485,19 @@
 .eventos-lectura-semana div {
   margin-left: 5px;
 }
+.eventos-lectura-mes .separador,
+.eventos-lectura-quincena .separador,
+.eventos-lectura-semana .separador {
+  margin: 0;
+  height: 1px;
+  width: 100%;
+  background-color: var(--color-text2);
+}
+.eventos-lectura-mes .separador:last-child,
+.eventos-lectura-quincena .separador:last-child,
+.eventos-lectura-semana .separador:last-child {
+  height: 0;
+}
 
 .eventos-lectura-tit {
   font-size: 2rem;
@@ -669,6 +696,7 @@
   border-radius: 0.5rem;
   width: max-content;
   margin: 2rem auto;
+  padding: 5px;
   cursor: pointer;
 }
 
@@ -755,6 +783,7 @@
   position: absolute;
   bottom: max(22vh, 154px);
   right: max(2vw, 20px);
+  z-index: 2;
   cursor: pointer;
 }
 .cliente-logout:hover {
@@ -974,6 +1003,24 @@
   flex-direction: column;
 }
 
+.admin-logout {
+  text-align: center;
+  padding: 10px;
+  background-color: var(--color-botones);
+  color: var(--color-fondo);
+  font-size: 1.5rem;
+  border: 1px solid var(--color-text2);
+  border-radius: 1rem;
+  position: absolute;
+  bottom: max(22vh, 154px);
+  right: max(2vw, 20px);
+  z-index: 2;
+  cursor: pointer;
+}
+.admin-logout:hover {
+  background-color: var(--color-botones-hover);
+}
+
 .admin-modal {
   display: none;
   position: fixed;
@@ -1068,7 +1115,8 @@
   display: none;
 }
 
-.admin-tabla {
+.admin-tabla,
+.admin-tabla2 {
   position: absolute;
   top: 2%;
   left: 50%;
@@ -1079,14 +1127,19 @@
   table-layout: auto;
   word-break: break-word;
 }
-.admin-tabla th {
+.admin-tabla th,
+.admin-tabla2 th {
   font-size: 1.5rem;
   border: 2px solid var(--color-text2);
 }
-.admin-tabla td {
+.admin-tabla td,
+.admin-tabla2 td {
   font-size: 1.2rem;
 }
-.admin-tabla tr, .admin-tabla td, .admin-tabla th {
+.admin-tabla tr, .admin-tabla td, .admin-tabla th,
+.admin-tabla2 tr,
+.admin-tabla2 td,
+.admin-tabla2 th {
   padding: 5px;
   text-align: center;
   color: var(--color-text2);
@@ -1096,10 +1149,18 @@
   white-space: normal;
   cursor: default;
 }
-.admin-tabla tr:last-child td {
+.admin-tabla tr:last-child td,
+.admin-tabla2 tr:last-child td {
   padding-bottom: 5rem;
   border: 3px solid var(--color-fondo);
   border-top: 3px solid var(--color-text2);
+}
+
+.admin-tabla2 th {
+  font-size: 1.2rem;
+}
+.admin-tabla2 td {
+  font-size: 0.9rem;
 }
 
 .lista-filtro {
@@ -1150,7 +1211,7 @@
   }
   .admin-sub .cerrar {
     position: absolute;
-    top: 5%;
+    top: 0;
     right: 5%;
     display: flex;
     align-items: center;
@@ -1172,6 +1233,12 @@
   }
   .admin-tabla td {
     font-size: 0.6rem;
+  }
+  .admin-tabla2 th {
+    font-size: 0.8rem;
+  }
+  .admin-tabla2 td {
+    font-size: 0.4rem;
   }
 }
 .main-errores {

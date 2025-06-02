@@ -140,15 +140,11 @@ const mUsers = {
     },
     edit: async (id, newFields) => {
         try {
-            console.log("Inicio");
             const allowedFields = ['usr_name', 'usr_mail', 'usr_password'];
             const keys = Object.keys(newFields).filter(key => allowedFields.includes(key));
-            console.log("Keys: ", keys);
             if (keys.length === 0) throw { status: 400, message: "Campos inválidos para actualizar" };
             const setClause = keys.map((key, idx) => `${key} = $${idx + 2}`).join(', ');
-            console.log("Clausula: ", setClause);
             const values = keys.map(k => newFields[k]);
-            console.log("Values: ", values);
             const result = await pool.query(`UPDATE dbc.USERS SET ${setClause}
                                         WHERE usr_id = $1`, [id, ...values]);
             console.log("justo antes del return");

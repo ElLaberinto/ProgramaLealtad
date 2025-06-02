@@ -1,5 +1,5 @@
 # Sistema de Programa de Lealtad "El Laberinto"
-Aplicación web desarrollada para gestionar clientes, empleados, promociones y eventos de una cafetería creada para la cafetería "El Laberinto".
+Aplicación web desarrollada para gestionar clientes, empleados, promociones y eventos de una cafetería creada para la cafetería "El Laberinto". Ceada por Diego Mozo hezekiah001002@gmail.com
 ## 🛠️ Tecnologías
 - Node.js
 - Express

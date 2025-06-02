@@ -29,6 +29,10 @@ const cProgram = {
     loginCliente: async (req, res) => {
         try {
             const usuario = req.session.usuario;
+            if(usuario == undefined) {
+                error.e403(req, res);
+                return;
+            }
             const cliente = await mClientes.getOne(usuario.usr_id);
             const listaPromos = await mPromos.getActives();
             const buysList = await mBuys.getByClient(usuario.usr_id);
@@ -40,6 +44,10 @@ const cProgram = {
     loginAdmin: async (req, res) => {
         try {
             const usuario = req.session.usuario;
+            if(usuario == undefined) {
+                error.e403(req, res);
+                return;
+            }
             const listaUsuarios = await mUsers.getAll();
             const listaClientes = await mClientes.getAll();
             const listaPromos = await mPromos.getAll();

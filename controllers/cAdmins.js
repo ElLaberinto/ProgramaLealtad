@@ -70,6 +70,8 @@ const cAdmins = {
     addRank: async (req, res) => {
         try {
             const { rangos_name, rangos_cash } = req.body;
+            const repeatedName = await mRanks.repeatedName(rangos_name);
+            if(repeatedName) return res.json({ succes: false, message: "Nombre de rango ya ocupado" });
             const id = await mRanks.insert(rangos_name, rangos_cash);
             const okey = id > 0;
             if (!okey) {

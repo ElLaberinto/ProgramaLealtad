@@ -16,6 +16,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const inputPuntosRed = document.getElementById("red-pts");
     const inputHideRed = document.getElementById("red-hide");
 
+    const btnLogout = document.getElementById("logout");
+
     let clientes = [];
     let promos = [];
     let clienteSeleccionado = null;
@@ -127,6 +129,23 @@ document.addEventListener("DOMContentLoaded", () => {
             });
             listaPromosRed.appendChild(li);
         })
+    });
+
+    btnLogout.addEventListener("click", () => {
+        Swal.fire({
+            title: "¿Seguro quieres cerrar la sesión?",
+            text: "Tendrás que volver a ingresar tus datos",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Sí, salir",
+            cancelButtonText: "Cancelar"
+        }).then(async result => {
+            if (result.isConfirmed) {
+                window.location.href = "/logout";
+            }
+        });
     });
 
 });

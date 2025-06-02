@@ -16,9 +16,11 @@ block content
                     a(href="#clientes") Administrar clientes
                     a(href="#admyemp") Administradores y empleados
         section.admin-contenido#contenedor
+            .admin-logout#logout Cerrar sesión
             section.admin-sub#registro 
                 span.cerrar X
                 form.admin-form(class="form-ticket" enctype="multipart/form-data")
+                    input(type="hidden" name="hide" value="Guardar")
                     .admin-label
                         label(for="reg-cliente") Cliente: 
                         input#reg-cliente(type="text" required 
@@ -43,6 +45,7 @@ block content
             section.admin-sub#alta
                 span.cerrar X
                 form.admin-form#alta-form(action="")
+                    input(type="hidden" name="hide" value="Guardar")
                     .admin-label 
                         label(for="alta-nom") Nombre: 
                         input#alta-nom(type="text" name="alta_name" required)
@@ -96,13 +99,14 @@ block content
                     .admin-modal-content 
                         span#promos-cerrar X 
                         form.admin-form#promos-form
-                            input(type="hidden" name="hide" value="Guardar")
+                            input(type="hidden" name="hide" value="Guardar" data-section="promos")
+                            input(type="hidden" name="id")
                             .admin-label 
                                 label(for="promos-name") Descripción: 
-                                input#promos-name(type="text" name="promos_name" required)
+                                input#promos-name(type="text" name="promos_name" data-db-name="pro_name" required)
                             .admin-label 
                                 label(for="promos-points") Puntos requeridos: 
-                                input#promos-points(type="number" name="promos_points" min="0" required)
+                                input#promos-points(type="number" name="promos_points" data-db-name="pro_points" min="0" required)
                             .admin-label 
                                 label(for="promos-expiration") Fecha de expiración: 
                                 input#promos-expiration(type="date" name="promos_expiration" required)
@@ -134,17 +138,19 @@ block content
                     .admin-modal-content 
                         span#rangos-cerrar X 
                         form.admin-form#rangos-form
-                            input(type="hidden" name="hide" value="Guardar")
+                            input(type="hidden" name="hide" value="Guardar" data-section="rangos")
+                            input(type="hidden" name="id")
                             .admin-label 
                                 label(for="rangos-name") Nombre: 
-                                input#rangos-name(type="text" name="rangos_name" required)
+                                input#rangos-name(type="text" name="rangos_name" data-db-name="ran_name" required)
                             .admin-label 
                                 label(for="rangos-cash") Cashback: 
-                                input#rangos-cash(type="number" name="rangos_cash" min="0" required)
+                                input#rangos-cash(type="number" name="rangos_cash" min="0" data-db-name="ran_cashback" required)
                             input(type="submit" value="Guardar")
             section.admin-sub#redencion 
                 span.cerrar X
                 form.admin-form(class="form-ticket" enctype="multipart/form-data")
+                    input(type="hidden" name="hide" value="Guardar")
                     .admin-label
                         label(for="red-cliente") Cliente: 
                         input#red-cliente(type="text" required 
@@ -173,11 +179,10 @@ block content
                     input(type="submit" value="Guardar")
             section.admin-sub#eventos
                 span.cerrar X
-                table.admin-tabla 
+                table.admin-tabla2 
                     tr 
                         th Nombre 
                         th Imparte 
-                        th Duración 
                         th Fechas 
                         th Horarios 
                         th Costo/Aparta
@@ -187,7 +192,6 @@ block content
                         tr 
                             td= event.evt_name 
                             td= event.evt_instructor 
-                            td= event.evt_duration 
                             td= event.evt_dates 
                             td= event.evt_schedules 
                             td= event.evt_cost + " / " + event.evt_deposit 
@@ -197,41 +201,42 @@ block content
                                 img.admin-eliminador(src="/media/puntos/borrar.png" alt="borrar" data-id=event.evt_id data-sec="eventos")
                                 img.admin-editor(src="/media/puntos/editar.png" alt="editar" data-id=event.evt_id data-sec="eventos")
                     tr 
-                        td(colspan="8")
+                        td(colspan="7")
                 .admin-btn-nuevo#eventos-btn Nuevo
                 .admin-modal#eventos-modal
                     .admin-modal-content3
                         span#eventos-cerrar X
                         form.admin-form#eventos-form
-                            input(type="hidden" name="hide" value="Guardar")
+                            input(type="hidden" name="hide" value="Guardar" data-section="eventos")
+                            input(type="hidden" name="id")
                             .admin-label 
                                 label(for="eventos-name") Nombre:
-                                input#eventos-name(type="text" name="eventos_name" required)
+                                input#eventos-name(type="text" name="eventos_name" data-db-name="evt_name" required)
                             .admin-label 
                                 label(for="eventos-instructor") Instructor:
-                                input#eventos-instructor(type="text" name="eventos_instructor" required)
+                                input#eventos-instructor(type="text" name="eventos_instructor" data-db-name="evt_instructor" required)
                             .admin-label 
                                 label(for="eventos-duration") Duración:
-                                input#eventos-duration(type="number" name="eventos_duration" min="1" required) 
+                                input#eventos-duration(type="number" name="eventos_duration" min="1" data-db-name="evt_duration" required) 
                             .admin-label-ticket
                                 label(for="eventos-dates") Fechas:
                                 #container-dates
-                                    input#eventos-dates(type="text" name="eventos_dates[]" required)  
-                                input#eventos-add-date(type="button" value="Otra fecha")
+                                    input#eventos-dates(type="text" name="eventos_dates[]" data-db-name="evt_dates" required)  
+                                input#eventos-add-date(type="button" value="Otra fecha" name="add_date")
                             .admin-label-ticket
                                 label(for="eventos-schedules") Horarios:
                                 #container-schedules
-                                    input#eventos-schedules(type="text" name="eventos_schedules[]" required)  
-                                input#eventos-add-schedule(type="button" value="Otro horario")
+                                    input#eventos-schedules(type="text" name="eventos_schedules[]" data-db-name="evt_schedules" required)  
+                                input#eventos-add-schedule(type="button" value="Otro horario" name="add_schedule")
                             .admin-label 
                                 label(for="eventos-cost") Costo:
-                                input#eventos-cost(type="number" name="eventos_cost" min="0" step="0.01" required)
+                                input#eventos-cost(type="number" name="eventos_cost" min="0" step="0.01" data-db-name="evt_cost" required)
                                 .admin-label-checkbox
                                     label(for="eventos-nocost") Gratis
                                         input#eventos-nocost(type="checkbox" name="eventos_nocost")
                             .admin-label 
                                 label(for="eventos-deposit") Aparta con:
-                                input#eventos-deposit(type="number" name="eventos_deposit" min="0" step="0.01" required)
+                                input#eventos-deposit(type="number" name="eventos_deposit" min="0" step="0.01" data-db-name="evt_deposit" required)
                                 .admin-label-checkbox
                                     label(for="eventos-nodeposit") Sin apartar
                                         input#eventos-nodeposit(type="checkbox" name="eventos_nodeposit") 
@@ -264,22 +269,23 @@ block content
                     .admin-modal-content2
                         span#lecturas-cerrar X
                         form.admin-form#lecturas-form
-                            input(type="hidden" name="hide" value="Guardar")
+                            input(type="hidden" name="hide" value="Guardar" data-section="lecturas")
+                            input(type="hidden" name="id")
                             .admin-label 
                                 label(for="lecturas-book") Libro:
-                                input#lecturas-book(type="text" name="lecturas_book" required)
+                                input#lecturas-book(type="text" name="lecturas_book" data-db-name="rdn_book" required)
                             .admin-label 
                                 label(for="lecturas-author") Autor:
-                                input#lecturas-author(type="text" name="lecturas_author" required)
+                                input#lecturas-author(type="text" name="lecturas_author" data-db-name="rdn_author" required)
                             .admin-label 
                                 label(for="lecturas-facilitator") Facilita:
-                                input#lecturas-facilitator(type="text" name="lecturas_facilitator" required)
+                                input#lecturas-facilitator(type="text" name="lecturas_facilitator" data-db-name="rdn_facilitator" required)
                             .admin-label 
                                 label(for="lecturas-schedule") Horario:
-                                input#lecturas-schedule(type="text" name="lecturas_schedule" required)
+                                input#lecturas-schedule(type="text" name="lecturas_schedule" data-db-name="rdn_schedule" required)
                             .admin-label 
                                 label(for="lecturas-type") Tipo:
-                                select#lecturas-type(name="lecturas_type") 
+                                select#lecturas-type(name="lecturas_type" data-db-name="rdn_type") 
                                     option(value="Semanal") Semanal 
                                     option(value="Quincenal") Quincenal 
                                     option(value="Mensual") Mensual   
@@ -290,7 +296,7 @@ block content
                 h3 Próximamente
             section.admin-sub#clientes
                 span.cerrar X
-                table.admin-tabla
+                table.admin-tabla2
                     tr 
                         th Nombre 
                         th Correo 
@@ -320,6 +326,36 @@ block content
                                     img.admin-editor(src="/media/puntos/editar.png" alt="editar" data-id=usuario.usr_id data-sec="clientes")
                     tr
                         td(colspan="8")
+                .admin-modal#clientes-modal
+                    .admin-modal-content2
+                        span#clientes-cerrar X
+                        form.admin-form#clientes-form 
+                            input(type="hidden" name="hide" value="Guardar" data-section="clientes")
+                            input(type="hidden" name="id")
+                            .admin-label 
+                                label(for="clientes-name") Nombre:
+                                input#clientes-name(type="text" name="clientes_name" data-db-name="usr_name" required) 
+                            .admin-label 
+                                label(for="clientes-mail") Correo electrónico:
+                                input#clientes-mail(type="text" name="clientes_mail" data-db-name="usr_mail" required)
+                            .admin-label 
+                                label(for="clientes-phone") Celular: 
+                                input#clientes-phone(type="text" name="clientes_phone" inputmode="numeric" pattern="[0-9]{10}" 
+                                maxlength="10" minlength="10" data-db-name="clt_phone" required) 
+                            .admin-label 
+                                label(for="clientes-birthday") Cumpleaños: 
+                                input#clientes-birthday(type="date" name="clientes_birthday" data-db-name="clt_birthday" required)
+                            .admin-label 
+                                label(for="clientes-rank") Rango: 
+                                select#clientes-rank(name="clientes_rank" required)
+                                    each rank in ranksList
+                                        if rank.ran_status 
+                                            option(value=`${rank.ran_name}`)= rank.ran_name
+                            .admin-label 
+                                label(for="clientes-password") Contraseña: 
+                                input#clientes-password(type="password" name="clientes_password"  value="*****" 
+                                data-original="*****" data-db-name="usr_password" required)
+                            input(type="submit" value="Guardar")
             section.admin-sub#admyemp
                 span.cerrar X
                 table.admin-tabla
@@ -346,16 +382,17 @@ block content
                     .admin-modal-content
                         span#admyemp-cerrar X
                         form.admin-form#admyemp-form 
-                            input(type="hidden" name="admyemp-hide" value="Guardar")
+                            input(type="hidden" name="hide" value="Guardar" data-section="admyemp")
+                            input(type="hidden" name="id")
                             .admin-label 
                                 label(for="admyemp-name") Nombre:
-                                input#admyemp-name(type="text" name="admyemp_name" required)
+                                input#admyemp-name(type="text" name="admyemp_name" data-db-name="usr_name" required)
                             .admin-label 
                                 label(for="admyemp-mail") Correo electrónico: 
-                                input#admyemp-mail(type="email" name="admyemp_mail" required) 
+                                input#admyemp-mail(type="email" name="admyemp_mail" data-db-name="usr_mail" required) 
                             .admin-label 
                                 label(for="admyemp-password") Contraseña: 
-                                input#admyemp-password(type="password" name="admyemp_password" required)
+                                input#admyemp-password(type="password" name="admyemp_password" data-db-name="usr_password" required)
                             .admin-label 
                                 label(for="admyemp-role") Administrador o empleado: 
                                 select#admyemp-role(name="admyemp_role")
