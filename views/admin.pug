@@ -75,7 +75,7 @@ block content
                     tr
                         th Descripción 
                         th Vencimiento
-                        th Estatus 
+                        th.no-cel Estatus 
                         th Puntos requeridos 
                         th Acciones 
                     each promo in listaPromos
@@ -86,7 +86,7 @@ block content
                                 td= fechaFormateada
                             else 
                                 td No expira
-                            td(data-status-id=promo.pro_id data-section="promos")= promo.pro_status ? "Activo" : "Inactivo"
+                            td.no-cel(data-status-id=promo.pro_id data-section="promos")= promo.pro_status ? "Activo" : "Inactivo"
                             td= promo.pro_points
                             td
                                 img.admin-apagador(src="/media/puntos/apagador.png" alt="apagar/encender" data-id=promo.pro_id data-sec="promos" data-st=`${promo.pro_status}`)
@@ -119,13 +119,13 @@ block content
                 table.admin-tabla 
                     tr
                         th Tipo de cliente
-                        th Estatus 
+                        th.no-cel Estatus 
                         th % cashback
                         th Acciones 
                     each rango in ranksList
                         tr
                             td= rango.ran_name
-                            td(data-status-id=rango.ran_id data-section="rangos")= rango.ran_status ? "Activo" : "Inactivo"
+                            td.no-cel(data-status-id=rango.ran_id data-section="rangos")= rango.ran_status ? "Activo" : "Inactivo"
                             td= rango.ran_cashback + "%"
                             td
                                 img.admin-apagador(src="/media/puntos/apagador.png" alt="apagar/encender" data-id=rango.ran_id data-sec="rangos" data-st=`${rango.ran_status}`)
@@ -182,20 +182,20 @@ block content
                 table.admin-tabla2 
                     tr 
                         th Nombre 
-                        th Imparte 
+                        th.no-cel Imparte 
                         th Fechas 
                         th Horarios 
-                        th Costo/Aparta
-                        th Estatus
+                        th.no-cel Costo/Aparta
+                        th.no-cel Estatus
                         th Acciones
                     each event in eventsList 
                         tr 
                             td= event.evt_name 
-                            td= event.evt_instructor 
+                            td.no-cel= event.evt_instructor 
                             td= event.evt_dates 
                             td= event.evt_schedules 
-                            td= event.evt_cost + " / " + event.evt_deposit 
-                            td(data-status-id=event.evt_id data-section="eventos")= event.evt_status ? "Activo" : "Inactivo"
+                            td.no-cel= event.evt_cost + " / " + event.evt_deposit 
+                            td.no-cel(data-status-id=event.evt_id data-section="eventos")= event.evt_status ? "Activo" : "Inactivo"
                             td 
                                 img.admin-apagador(src="/media/puntos/apagador.png" alt="apagar/encender" data-id=event.evt_id data-sec="eventos" data-st=`${event.evt_status}`)
                                 img.admin-eliminador(src="/media/puntos/borrar.png" alt="borrar" data-id=event.evt_id data-sec="eventos")
@@ -248,16 +248,16 @@ block content
                         th Libro
                         th Facilita
                         th Horario
-                        th Tipo
-                        th Estatus
+                        th.no-cel Tipo
+                        th.no-cel Estatus
                         th Acciones
                     each reading in readingsList 
                         tr 
                             td= reading.rdn_book
                             td= reading.rdn_facilitator
                             td= reading.rdn_schedule 
-                            td= reading.rdn_type
-                            td(data-status-id=reading.rdn_id data-section="lecturas")= reading.rdn_status ? "Activo" : "Inactivo"
+                            td.no-cel= reading.rdn_type
+                            td.no-cel(data-status-id=reading.rdn_id data-section="lecturas")= reading.rdn_status ? "Activo" : "Inactivo"
                             td 
                                 img.admin-apagador(src="/media/puntos/apagador.png" alt="apagar/encender" data-id=reading.rdn_id data-sec="lecturas" data-st=`${reading.rdn_status}`)
                                 img.admin-eliminador(src="/media/puntos/borrar.png" alt="borrar" data-id=reading.rdn_id data-sec="lecturas")
@@ -299,12 +299,12 @@ block content
                 table.admin-tabla2
                     tr 
                         th Nombre 
-                        th Correo 
+                        th.no-cel Correo 
                         th Celular
-                        th Cumpleaños 
+                        th.no-cel Cumpleaños 
                         th Rango
                         th Puntos
-                        th Estatus 
+                        th.no-cel Estatus 
                         th Acciones 
                     each usuario in listaUsuarios
                         if usuario.usr_role == "Cliente"
@@ -315,12 +315,12 @@ block content
                             - var fechaFormateada = new Date(datosCliente.clt_birthday).toISOString().split('T')[0]
                             tr 
                                 td= usuario.usr_name 
-                                td= usuario.usr_mail 
+                                td.no-cel= usuario.usr_mail 
                                 td= datosCliente.clt_phone 
-                                td= fechaFormateada
+                                td.no-cel= fechaFormateada
                                 td= datosCliente.clt_rank 
                                 td= datosCliente.clt_points
-                                td(data-status-id=usuario.usr_id data-section="clientes")= usuario.usr_status ? "Activo" : "Inactivo"
+                                td.no-cel(data-status-id=usuario.usr_id data-section="clientes")= usuario.usr_status ? "Activo" : "Inactivo"
                                 td
                                     img.admin-apagador(src="/media/puntos/apagador.png" alt="apagar/encender" data-id=usuario.usr_id data-sec="clientes" data-st=`${usuario.usr_status}`)
                                     img.admin-editor(src="/media/puntos/editar.png" alt="editar" data-id=usuario.usr_id data-sec="clientes")
@@ -363,7 +363,7 @@ block content
                         th Nombre 
                         th Correo 
                         th Rol
-                        th Estatus 
+                        th.no-cel Estatus 
                         th Acciones 
                     each user in listaUsuarios 
                         if user.usr_role == "Administrador" || user.usr_role == "Empleado"
@@ -371,7 +371,7 @@ block content
                                 td= user.usr_name 
                                 td= user.usr_mail 
                                 td= user.usr_role
-                                td(data-status-id=user.usr_id data-section="admyemp")= user.usr_status ? "Activo" : "Inactivo"
+                                td.no-cel(data-status-id=user.usr_id data-section="admyemp")= user.usr_status ? "Activo" : "Inactivo"
                                 td
                                     img.admin-apagador(src="/media/puntos/apagador.png" alt="apagar/encender" data-id=user.usr_id data-sec="admyemp" data-st=`${user.usr_status}`)
                                     img.admin-editor(src="/media/puntos/editar.png" alt="editar" data-id=user.usr_id data-sec="admyemp")

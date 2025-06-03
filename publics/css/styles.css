@@ -1335,6 +1335,9 @@ ul li {
   .main {
     height: max(80vh, 560px);
   }
+  .no-cel {
+    display: none;
+  }
 }
 
 /*# sourceMappingURL=styles.css.map */
