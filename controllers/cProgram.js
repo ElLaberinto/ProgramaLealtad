@@ -134,7 +134,7 @@ const cProgram = {
         try {
             const okey = await hasheador.compare(p, h);
             if (okey) res.json({ success: true });
-            else res.json({ success: false, error: "Contraseña incorrecta" });
+            else res.json({ success: false, error: "Contraseña incorrecta, si persiste el problema acude a El Laberinto para que te ayuden" });
         } catch (err) {
             res.json({ success: false, error: err });
         }

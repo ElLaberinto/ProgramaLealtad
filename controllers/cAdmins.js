@@ -28,9 +28,11 @@ const cAdmins = {
             const { alta_name, alta_phone, alta_mail, alta_password, alta_birthday, alta_rank } = req.body;
             const repeatedMail = await mUsers.repeatedMail(alta_mail);
             const repeatedPhone = await mClientes.repeatedPhone(alta_phone);
+            if(!alta_rank) {
+                return res.json({ success: false, error: "No se puede registrar un cliente sin rango" });
+            }
             if (repeatedMail || repeatedPhone) {
-                res.json({ success: false, error: "Correo o celular ya registrados" });
-                return;
+                return res.json({ success: false, error: "Correo o celular ya registrados" });
             }
             const hashedPassword = await hasheador.hash(alta_password);
             const id = await mUsers.insert(alta_name, alta_mail, hashedPassword, 'Cliente');

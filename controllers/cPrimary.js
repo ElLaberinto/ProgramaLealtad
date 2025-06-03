@@ -1,6 +1,8 @@
 import mEvents from "../models/mEvents.js";
 import mReadings from "../models/mReadings.js";
 import mMenu from "../models/mMenu.js";
+import mUsers from "../models/mUsers.js";
+import mClients from "../models/mClientes.js"
 
 import error from "../middlewares/errors.js";
 

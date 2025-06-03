@@ -13,7 +13,7 @@ const autentificador = {
                 const listaClientes = await mClientes.getAll();
                 const cliente = listaClientes.find( cliente => cliente.clt_phone == user );
                 if(!cliente){
-                    return res.status(401).json({ error: "Usuario o contraseña incorrectos" });
+                    return res.status(401).json({ error: "Usuario o contraseña incorrectos, si persiste el problema acude a El Laberinto para que te ayuden" });
                 }
                 data = await mUsers.getOne(cliente.clt_id);
             }
@@ -29,7 +29,7 @@ const autentificador = {
             if(!password) return res.status(401).json({ message: "Contraseña no proporcionada" });
             const valid = await hasheador.compare(password, req.data.usr_password);
             if(!valid){
-                return res.status(401).json({ error: "Usuario o contraseña incorrectos" });
+                return res.status(401).json({ error: "Usuario o contraseña incorrectos, si persiste el problema acude a El Laberinto para que te ayuden" });
             }
             next();
         } catch(err){
