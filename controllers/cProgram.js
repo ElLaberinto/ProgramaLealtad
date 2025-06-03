@@ -20,7 +20,7 @@ const cProgram = {
             if (usuario.usr_role === "Cliente") {
                 return res.json({ success: true, rol: "Cliente" });
             } else {
-                return res.json({ success: true, rol: "Admin" });
+                return res.json({ success: true, rol: "Administrador" });
             }
         } catch (err) {
             return res.status(500).json({ error: "Error del servidor" });
@@ -30,8 +30,7 @@ const cProgram = {
         try {
             const usuario = req.session.usuario;
             if(usuario == undefined) {
-                error.e403(req, res);
-                return;
+                return res.redirect("/programadepuntos");
             }
             const cliente = await mClientes.getOne(usuario.usr_id);
             const listaPromos = await mPromos.getActives();
@@ -147,7 +146,6 @@ const cProgram = {
         const cambiaClient = Object.keys(cambiosClient).length > 0
         try {
             if (cambiosUser.usr_mail) {
-                console.log("Primer problem");
                 problem = await mUsers.repeatedMail(cambiosUser.usr_mail);
             }
             if (problem) {
@@ -155,7 +153,6 @@ const cProgram = {
                 return;
             }
             if (cambiosClient.clt_phone) {
-                console.log("Segundo problem");
                 problem = await mClientes.repeatedPhone(cambiosClient.clt_phone);
             }
             if (problem) {
@@ -181,11 +178,8 @@ const cProgram = {
     subirTicket: async (req, res) => {
         try {
             const file = req.file;
-            console.log("Después del file");
             const { hide, total, ticket, points } = req.body;
             const date = new Date().toISOString().split('T')[0];
-            console.log("body: ", req.body);
-            console.log("Date: ", date);
             const streamUpload = () =>
                 new Promise((resolve, reject) => {
                     const stream = cloudinary.uploader.upload_stream(
@@ -199,9 +193,8 @@ const cProgram = {
                 });
             const resultado = await streamUpload();
             const url = resultado.secure_url;
-            console.log("Url: ", url);
-            await mBuys.insert(hide, total, ticket, date, points, url);
-            await mClientes.editPoints(hide, points);
+            await mBuys.insert(hide[1], total, ticket, date, points, url);
+            await mClientes.editPoints(hide[1], points);
             res.status(200).json({ mensaje: 'Ticket subido correctamente' });
         } catch (err) {
             console.error(err);

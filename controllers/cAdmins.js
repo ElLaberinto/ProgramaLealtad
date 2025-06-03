@@ -85,12 +85,11 @@ const cAdmins = {
     },
     addEvent: async (req, res) => {
         try {
-            console.log("Inicio");
-            let { eventos_name, eventos_instructor, eventos_duration, eventos_cost, eventos_deposit, 'eventos_dates[]': datesArray, 'eventos_schedules[]': schedulesArray } = req.body;
-            /*const dates = req.body['eventos_dates'] || req.body['eventos_dates[]'];
+            let { eventos_name, eventos_instructor, eventos_duration, eventos_cost, eventos_deposit } = req.body;
+            const dates = req.body['eventos_dates'] || req.body['eventos_dates[]'];
             const datesArray = Array.isArray(dates) ? dates : [dates];
             const schedules = req.body['eventos_schedules'] || req.body['eventos_schedules[]'];
-            const schedulesArray = Array.isArray(schedules) ? schedules : [schedules];*/
+            const schedulesArray = Array.isArray(schedules) ? schedules : [schedules];
             if (!eventos_deposit) eventos_deposit = 0;
             if (!eventos_cost) eventos_cost = 0;
             const id = await mEvents.insert(eventos_name, eventos_instructor, eventos_duration, datesArray, schedulesArray, eventos_cost, eventos_deposit);

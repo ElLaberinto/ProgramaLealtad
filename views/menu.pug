@@ -10,7 +10,7 @@ block content
                         if product.mnu_category == category
                             .menu-producto(data-nombre=product.mnu_name)
                                 .menu-texto1= product.mnu_name
-                                .menu-texto2= product.mnu_price 
+                                .menu-texto2= Math.floor(product.mnu_price) 
                                 .menu-texto3= product.mnu_description       
         
         div(class="modal" id="modal")

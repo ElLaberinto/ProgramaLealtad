@@ -9,6 +9,13 @@ const cPrimary = {
         res.render("home");
     },
     program: (req, res) => {
+        if(req.session.usuario) {
+            if(req.session.usuario.usr_role == "Cliente") {
+                return res.redirect("/clientes");
+            } else {
+                return res.redirect("/admins");
+            }
+        }
         res.render("program");
     },
     events: async (req, res) => {

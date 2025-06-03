@@ -35,11 +35,13 @@ document.addEventListener("DOMContentLoaded", () => {
             });
             try {
                 if (data.hide == "Guardar") {
+                    console.log("Inicio");
                     const response = await fetch(route, {
                         method: "POST",
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(data)
                     });
+                    console.log("Response: ", response);
                     const text = await response.text();
                     const result = JSON.parse(text);
                     if (result.success) {
