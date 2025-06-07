@@ -3,7 +3,8 @@ import pool from "../databases/database.js";
 const mBuys = {
     getAll: async () => {
         try {
-            const result = await pool.query("SELECT * FROM dbc.BUYS");
+            const result = await pool.query(`SELECT * FROM dbc.BUYS
+                                        ORDER BY buy_id`);
             return result.rows;
         } catch(err) {
             throw { status: 500 };
@@ -21,7 +22,8 @@ const mBuys = {
     getByClient: async (client) => {
         try {
             const result = await pool.query(`SELECT * FROM dbc.BUYS
-                                        WHERE buy_client = $1`, [client]);
+                                        WHERE buy_client = $1
+                                        ORDER BY buy_id`, [client]);
             return result.rows;
         } catch(err) {
             throw { status: 500 };

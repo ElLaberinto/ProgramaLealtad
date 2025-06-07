@@ -17,6 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const readingsForm = document.getElementById("lecturas-form");
     const formsTicket = document.querySelectorAll(".form-ticket");
     const clientsForm = document.getElementById("clientes-form");
+    const menuForm = document.getElementById("menu-form");
 
     const formSubmit = (form, route) => {
         form.addEventListener("submit", async e => {
@@ -50,14 +51,16 @@ document.addEventListener("DOMContentLoaded", () => {
                     } else {
                         Swal.fire("❌ Error al agregar", result.message || "No se pudo agregar correctamente", "error");
                     }
-                } else if (data.hide == "Editar") {             
+                } else if (data.hide == "Editar") {
                     const allInputs = form.querySelectorAll("input[name]");
                     const inputs = Array.from(allInputs).filter(input => input.type != "hidden");
                     const select = form.querySelector("select");
-                    inputs.forEach(input => { if(input.type == "checkbox") input.value = input.checked ? "on" : "off"; });
-                    const arrayInputs = inputs.map(input => ({ name: input.name, value: input.value, 
-                        original: input.dataset.original, dbName: input.dataset.dbName }));
-                    if(select) {
+                    inputs.forEach(input => { if (input.type == "checkbox") input.value = input.checked ? "on" : "off"; });
+                    const arrayInputs = inputs.map(input => ({
+                        name: input.name, value: input.value,
+                        original: input.dataset.original, dbName: input.dataset.dbName
+                    }));
+                    if (select) {
                         arrayInputs.push({ name: select.name, value: select.value, original: select.dataset.original, dbName: select.dataset.dbName });
                     }
                     const inputHide = form.querySelector(`input[type="hidden"]`);
@@ -68,10 +71,10 @@ document.addEventListener("DOMContentLoaded", () => {
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(arrayInputs)
                     });
-                    if(!response.ok) return Swal.fire("❌ Error al editar", "Hubo un error interno con la edición");
+                    if (!response.ok) return Swal.fire("❌ Error al editar", "Hubo un error interno con la edición");
                     const result = await response.json();
                     console.log("Result", result);
-                    if(!result.success) return Swal.fire("❌ Error al editar", result.message);
+                    if (!result.success) return Swal.fire("❌ Error al editar", result.message);
                     Swal.fire("✅ Editado correctamente", "Reiniciando sesión para ver cambios")
                         .then(() => {
                             localStorage.setItem('redirectSection', section);
@@ -173,11 +176,33 @@ document.addEventListener("DOMContentLoaded", () => {
                 });
                 if (res.ok)
                     Swal.fire({ title: 'Éxito', text: 'Compra registrada correctamente', icon: 'success' });
+                const previewRed = document.getElementById("preview-red");
+                const previewReg = document.getElementById("preview-reg");
+                previewRed.style.display = previewReg.style.display = "none";
                 form.reset();
             } catch (err) {
                 Swal.fire("❌ Error al registrar compra", result.error || "No se pudo registrar correctamente", "error");
             }
         });
+    });
+
+    menuForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const form = e.target;
+        const formData = new FormData(form);
+        try {
+            const res = await fetch('/subirFotoMenu', {
+                method: 'POST',
+                body: formData,
+            });
+            if (res.ok)
+                Swal.fire({ title: 'Éxito', text: 'Foto guardada correctamente', icon: 'success' });
+            const menuPreview = document.getElementById("menu-preview");
+            menuForm.reset();
+            menuPreview.style.display = "none";
+        } catch (err) {
+            Swal.fire("❌ Error interno", "No se pudo guardar la foto");
+        }
     });
 
 });

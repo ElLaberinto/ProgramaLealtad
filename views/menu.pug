@@ -8,15 +8,16 @@ block content
                     .menu-categoria-tit= category
                     each product in menu 
                         if product.mnu_category == category
-                            .menu-producto(data-nombre=product.mnu_name)
+                            .menu-producto(data-name=product.mnu_name data-price=product.mnu_price)
                                 .menu-texto1= product.mnu_name
                                 .menu-texto2= Math.floor(product.mnu_price) 
-                                .menu-texto3= product.mnu_description       
+                                .menu-texto3= product.mnu_description
+                                input(type="hidden" value=product.mnu_url name="url")       
         
         div(class="modal" id="modal")
             .modal-content
                 span(class="cerrar" id="cerrar") X
-                img(id="modal-img" src='', alt="Producto")
+                img(id="modal-img" src='' alt="Producto")
                 h2#modal-nombre
                 h4#modal-precio
 

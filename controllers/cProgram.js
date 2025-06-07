@@ -10,6 +10,7 @@ import hasheador from "../utils/hasheo.js"
 import cloudinary from "../databases/cloudinary.js";
 
 import error from "../middlewares/errors.js"
+import mMenu from "../models/mMenu.js";
 
 
 const cProgram = {
@@ -72,16 +73,13 @@ const cProgram = {
         const { q } = req.query;
         try {
             const listaUsuarios = await mUsers.getActiveClients();
-
             const resultados = [];
-
             for (const usuario of listaUsuarios) {
                 const cliente = await mClientes.getOne(usuario.usr_id);
                 const match =
                     usuario.usr_name.toLowerCase().includes(q.toLowerCase()) ||
                     usuario.usr_mail.toLowerCase().includes(q.toLowerCase()) ||
                     cliente.clt_phone.includes(q);
-
                 if (match) {
                     const rango = await mRanks.getOneName(cliente.clt_rank);
                     let cashback = null;
@@ -120,6 +118,28 @@ const cProgram = {
                         id: promo.pro_id,
                         name: promo.pro_name,
                         points: promo.pro_points
+                    };
+                    resultados.push(objeto);
+                }
+            }
+            res.json(resultados);
+        } catch (err) {
+            error.e500(req, res, err);
+        }
+    },
+    autocompletarProductos: async (req, res) => {
+        const { q } = req.query;
+        try {
+            const listaProductos = await mMenu.getAll();
+            const resultados = [];
+            for (const producto of listaProductos) {
+                const match = producto.mnu_name.toLowerCase().includes(q.toLowerCase());
+                if (match) {
+                    const objeto = {
+                        id: producto.mnu_id,
+                        name: producto.mnu_name,
+                        price: producto.mnu_price,
+                        url: producto.mnu_url
                     };
                     resultados.push(objeto);
                 }
@@ -183,7 +203,7 @@ const cProgram = {
             const streamUpload = () =>
                 new Promise((resolve, reject) => {
                     const stream = cloudinary.uploader.upload_stream(
-                        { folder: 'TicketsPrueba' },
+                        { folder: 'Tickets' },
                         (error, result) => {
                             if (error) reject(error);
                             else resolve(result);
@@ -196,6 +216,30 @@ const cProgram = {
             await mBuys.insert(hide[1], total, ticket, date, points, url);
             await mClientes.editPoints(hide[1], points);
             res.status(200).json({ mensaje: 'Ticket subido correctamente' });
+        } catch (err) {
+            console.error(err);
+            res.status(500).json({ error: 'Error al subir imagen' });
+        }
+    },
+    subirFotoMenu: async (req, res) => {
+        try {
+            const file = req.file;
+            const { id } = req.body;
+            const streamUpload = () =>
+                new Promise((resolve, reject) => {
+                    const stream = cloudinary.uploader.upload_stream(
+                        { folder: 'Menu' },
+                        (error, result) => {
+                            if (error) reject(error);
+                            else resolve(result);
+                        }
+                    );
+                    stream.end(file.buffer);
+                });
+            const resultado = await streamUpload();
+            const url = resultado.secure_url;
+            await mMenu.addUrl(id, url);
+            res.status(200).json({ mensaje: 'Foto subida correctamente' });
         } catch (err) {
             console.error(err);
             res.status(500).json({ error: 'Error al subir imagen' });

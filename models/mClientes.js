@@ -3,7 +3,8 @@ import pool from "../databases/database.js";
 const mClientes = {
     getAll: async () => {
         try {
-            const result = await pool.query("SELECT * FROM dbc.CLIENTS");
+            const result = await pool.query(`SELECT * FROM dbc.CLIENTS
+                                        ORDER BY clt_id`);
             return result.rows;
         } catch(err) {
             throw { status:500 };

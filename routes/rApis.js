@@ -7,6 +7,7 @@ const rApis = new Router();
 
 rApis.get("/autocompletarClientes", cProgram.autocompletarClientes);
 rApis.get("/autocompletarPromos", cProgram.autocompletarPromos);
+rApis.get("/autocompletarProductos", cProgram.autocompletarProductos);
 rApis.post("/altaAdmnEmp", cAdmins.addAdminEmp);
 rApis.post("/altaCliente", cAdmins.addClient);
 rApis.post("/newPromo", cAdmins.addPromo);

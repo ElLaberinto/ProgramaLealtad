@@ -3,7 +3,8 @@ import pool from "../databases/database.js";
 const mRanks = {
     getAll: async () => {
         try{
-            const result = await pool.query("SELECT * FROM dbc.RANKS");
+            const result = await pool.query(`SELECT * FROM dbc.RANKS
+                                        ORDER BY ran_id`);
             return result.rows;
         } catch(err) {
             throw { status:500 };
@@ -12,7 +13,8 @@ const mRanks = {
     getActives: async () => {
         try{
             const result = await pool.query(`SELECT * FROM dbc.RANKS
-                                        WHERE ran_status`);
+                                        WHERE ran_status
+                                        ORDER BY ran_id`);
             return result.rows;
         } catch(err) {
             throw { status:500 };

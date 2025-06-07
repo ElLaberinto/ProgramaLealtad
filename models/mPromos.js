@@ -3,7 +3,8 @@ import pool from "../databases/database.js";
 const mPromos = {
     getAll: async () => {
         try{
-            const result = await pool.query("SELECT * FROM dbc.PROMOS");
+            const result = await pool.query(`SELECT * FROM dbc.PROMOS
+                                        ORDER BY pro_id`);
             return result.rows;
         } catch(err) {
             throw { status:500 };
@@ -12,7 +13,8 @@ const mPromos = {
     getActives: async () => {
         try{
             const result = await pool.query(`SELECT * FROM dbc.PROMOS
-                                        WHERE pro_status`);
+                                        WHERE pro_status
+                                        ORDER BY pro_id`);
             return result.rows;
         } catch(err) {
             throw { status:500 };

@@ -292,8 +292,18 @@ block content
                             input(type="submit" value="Guardar")
             section.admin-sub#menu
                 span.cerrar X
-                h2 Gestión del menú
-                h3 Próximamente
+                form.admin-form#menu-form(enctype="multipart/form-data")
+                    .admin-label
+                        label(for="menu-product") Producto: 
+                        input#menu-producto(type="text" required 
+                        autocomplete="off" placeholder="Nombre del producto")
+                        ul.lista-filtro#lista-menu
+                        input#menu-hide(type="hidden" name="id")
+                    .admin-label-ticket 
+                        label(for="menu-img") Subir fotografia:
+                        input#menu-img(type="file" accept="image/*" capture="environment" name="img")
+                        img#menu-preview(src="" alt="Vista previa del ticket")
+                    input(type="submit" value="Guardar")
             section.admin-sub#clientes
                 span.cerrar X
                 table.admin-tabla2

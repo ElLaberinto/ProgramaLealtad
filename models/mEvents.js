@@ -3,7 +3,8 @@ import pool from "../databases/database.js";
 const mEvents = {
     getAll: async () => {
         try {
-            const result = await pool.query("SELECT * FROM dbc.EVENTS");
+            const result = await pool.query(`SELECT * FROM dbc.EVENTS
+                                        ORDER BY evt_id`);
             return result.rows;
         } catch(err) {
             throw { status: 500 };
@@ -21,7 +22,8 @@ const mEvents = {
     getActives: async () => {
         try {
             const result = await pool.query(`SELECT * FROM dbc.EVENTS
-                                        WHERE evt_status`);
+                                        WHERE evt_status
+                                        ORDER BY evt_id`);
             return result.rows;
         } catch(err) {
             throw { status: 500 };

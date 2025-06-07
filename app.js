@@ -18,7 +18,7 @@ app.use(helmet());
 app.use(morgan("dev"));
 app.use(cors());
 
-app.set("viwes", path.join(__dirname, "views"));
+app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
 
 app.use(express.static(path.join(__dirname, "publics")));
@@ -32,6 +32,18 @@ app.use(session({
     maxAge: 1000 * 60 * 60 * 10
   }
 }));
+app.use((req, res, next) => {
+  res.setHeader(
+    "Content-Security-Policy",
+    [
+      "default-src 'self'",
+      "img-src 'self' data: https://res.cloudinary.com",
+      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+      "font-src 'self' https://fonts.gstatic.com"
+    ].join("; ")
+  );
+  next();
+});
 
 // Rutas y errores aquí
 app.use(rPrimary);

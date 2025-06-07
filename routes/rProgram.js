@@ -11,5 +11,6 @@ rProgram.get("/clientes", cProgram.loginCliente);
 rProgram.get("/admins", cProgram.loginAdmin);
 rProgram.get("/logout", cProgram.logout);
 rProgram.post("/subirTicket", upload.single("img"), cProgram.subirTicket);
+rProgram.post("/subirFotoMenu", upload.single("img"), cProgram.subirFotoMenu);
 
 export default rProgram;

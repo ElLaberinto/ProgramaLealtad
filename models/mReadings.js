@@ -3,7 +3,8 @@ import pool from "../databases/database.js";
 const mReadings = {
     getAll: async () => {
         try {
-            const result = await pool.query("SELECT * FROM dbc.READINGS");
+            const result = await pool.query(`SELECT * FROM dbc.READINGS
+                                        ORDER BY rdn_id`);
             return result.rows;
         } catch(err) {
             throw { status: 500 };
@@ -21,7 +22,8 @@ const mReadings = {
     getActives: async () => {
         try {
             const result = await pool.query(`SELECT * FROM dbc.READINGS
-                                        WHERE rdn_status`);
+                                        WHERE rdn_status
+                                        ORDER BY rdn_id`);
             return result.rows;
         } catch(err) {
             throw { status: 500 };

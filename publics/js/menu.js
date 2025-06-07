@@ -1,10 +1,3 @@
-const menu = [
-    {   nombre: "Expresso", precio: 35, 
-        url: "/media/expresso.jpg" },
-    {   nombre: "Pan + cappuccino o latte", precio: 82, 
-        url: "/media/pan+capu.jpg" },
-];
-
 document.addEventListener("DOMContentLoaded", () => {
     const listaProductos = document.querySelectorAll(".menu-producto");
     const modal = document.getElementById("modal");
@@ -15,7 +8,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     listaProductos.forEach(producto =>{
         producto.addEventListener('click', () => {
-            
+            const inputUrl = producto.querySelector("input");
+            if (inputUrl.value) {
+                modal.style.display = "block";
+                modalImg.src = inputUrl.value;
+                modalNombre.innerText = producto.dataset.name;
+                modalPrecio.innerText = producto.dataset.price;
+            }
         });
     });
 
