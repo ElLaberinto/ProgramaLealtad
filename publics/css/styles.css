@@ -941,7 +941,8 @@
   scroll-snap-type: y mandatory;
 }
 
-.admin-form {
+.admin-form,
+.admin-form2 {
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
@@ -951,7 +952,8 @@
   width: 80%;
   margin: 0 auto;
 }
-.admin-form input[type=submit] {
+.admin-form input[type=submit],
+.admin-form2 input[type=submit] {
   position: absolute;
   bottom: 1.5rem;
   right: 1.5rem;
@@ -1198,6 +1200,24 @@
   .admin-form {
     margin: 0;
   }
+  .admin-form2 {
+    margin: 0;
+    height: max-content;
+    flex-wrap: nowrap;
+  }
+  .admin-modal {
+    position: absolute;
+    width: 95vw;
+  }
+  .admin-modal-content,
+  .admin-modal-content2,
+  .admin-modal-content3 {
+    width: 90vw;
+    margin: 2rem auto;
+  }
+  .admin-modal-content3 {
+    overflow-y: auto;
+  }
   .admin-nav {
     margin: 0 auto;
   }
@@ -1208,6 +1228,7 @@
   .admin-sub {
     height: max(65vh, 455px);
     width: 95vw;
+    position: relative;
   }
   .admin-sub .cerrar {
     position: absolute;
