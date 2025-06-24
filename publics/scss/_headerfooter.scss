@@ -9,21 +9,6 @@
     position: relative;
 }
 
-.header-admin{
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 20px;
-    height: 20px;
-
-    a{
-        display: block;
-        width: 100%;
-        height: 100%;
-        cursor: default;
-    }
-}
-
 .header-cerrar{
     display: none;
     position: absolute;
@@ -152,10 +137,10 @@
     .header{
         position: absolute;
         width: 100vw;
-        height: 100vh;
+        height: 100%;
         left: -100%;
         transition: all 0.5s ease-in-out;
-        z-index: 2;
+        z-index: 4;
     }
     
     .header-cerrar{
@@ -184,6 +169,15 @@
 
     .header-nav{
         flex-direction: column;
+        justify-content: start;
+        margin-top: 3rem;
     }
 
+    .header-opt{
+        flex-basis: 15%;
+    }
+
+    .footer-cel{
+        display: block;
+    }
 }

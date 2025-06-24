@@ -32,6 +32,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const formAdmYEmp = document.getElementById("admyemp-form");
     const inputHideAdmYEmp = document.querySelector("#admyemp-form input[type=hidden]");
 
+    const btnLogout = document.getElementById("logout");
+
     abrirModalPromos.addEventListener("click", () => {
         formPromos.reset();
         inputHidePromos.value = "Guardar";
@@ -92,6 +94,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 e.preventDefault();
                 contenedor.style.display = "block";
                 nav.style.display = "none";
+                btnLogout.style.display = "block";
                 requestAnimationFrame(() => {
                     const target = document.querySelector(btn.getAttribute('href'));
                     target.scrollIntoView({ behavior: 'smooth' });
@@ -107,6 +110,7 @@ document.addEventListener("DOMContentLoaded", () => {
             btn.addEventListener("click", () => {
                 contenedor.style.display = "none";
                 nav.style.display = "flex";
+                btnLogout.style.display = "none";
             });
         });
     }
