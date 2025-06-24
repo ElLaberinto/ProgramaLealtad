@@ -52,5 +52,5 @@ app.use("/api", rApis)
 app.use(error.e404);
 
 app.listen(port, () => {
-    console.log(`La aplicación está funcionando en: http://localhost:${port}`);
+    console.log(`Servidor en puerto: ${port}`);
 });
