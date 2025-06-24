@@ -5,6 +5,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const header = document.querySelector(".header");
     const btnHamburguer = document.getElementById("header-ham");
     const btnCerrar = document.getElementById("header-cerrar");
+
+    const creartodo = document.getElementById("creartodo");
+
+    creartodo.addEventListener("click", async () => {
+        await fetch('/api/inicializar');
+        console.log("Inicializado con éxito");
+    });
     
     options.forEach(path => {
         if(path.dataset.path === pathname) path.src = "/media/Coffee.png"

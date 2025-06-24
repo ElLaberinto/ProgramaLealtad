@@ -6,6 +6,7 @@ import error from "../middlewares/errors.js";
 import hasheador from "../utils/hasheo.js";
 import mEvents from "../models/mEvents.js";
 import mReadings from "../models/mReadings.js";
+import mInicio from "../models/mInicio.js";
 
 const cAdmins = {
     addAdminEmp: async (req, res) => {
@@ -115,6 +116,13 @@ const cAdmins = {
                 return;
             }
             res.json({ success: true, message: "Lectura agregado correctamente" });
+        } catch (err) {
+            error.e500(req, res, err);
+        }
+    },
+    inicializar: async (req, res) => {
+        try {
+            await mInicio.inicializar();
         } catch (err) {
             error.e500(req, res, err);
         }

@@ -20,5 +20,6 @@ rApis.patch("/editor", cActions.editor);
 rApis.get("/comparePassword", cProgram.comparePassword);
 rApis.patch("/editarCliente", cProgram.editarCliente);
 rApis.get("/obtenInfo", cActions.obtenInfo);
+rApis.get("/inicializar", cAdmins.inicializar);
 
 export default rApis;
