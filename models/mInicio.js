@@ -4,15 +4,13 @@ import pool from "../databases/database.js";
 const mInicio = {
     inicializar: async () => {
         try{
-            console.log("Modelo");
             await pool.query(`CREATE SCHEMA IF NOT EXISTS dbc`);
-            console.log("Después del schema");
             await pool.query(`CREATE TABLE IF NOT EXISTS dbc.menu
 (
     mnu_id serial NOT NULL,
-    mnu_category NOT NULL,
+    mnu_category text NOT NULL,
     mnu_name text NOT NULL,
-    mnu_description,
+    mnu_description text,
     mnu_price numeric(6,2) NOT NULL,
     mnu_url text,
     mnu_status boolean DEFAULT true,
@@ -93,7 +91,7 @@ const mInicio = {
     buy_ticket integer NOT NULL,
     buy_date date NOT NULL,
     buy_points integer NOT NULL,
-    buy_url
+    buy_url text
 )`);
             await pool.query(`INSERT INTO dbc.users
 (usr_name, usr_mail, usr_password, usr_role) VALUES

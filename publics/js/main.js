@@ -10,7 +10,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     creartodo.addEventListener("click", async () => {
         await fetch('/api/inicializar')
-        console.log("Inicializado con éxito");
     });
     
     options.forEach(path => {

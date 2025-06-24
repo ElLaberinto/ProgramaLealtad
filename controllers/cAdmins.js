@@ -122,7 +122,6 @@ const cAdmins = {
     },
     inicializar: async (req, res) => {
         try {
-            console.log("Controlador");
             await mInicio.inicializar();
         } catch (err) {
             error.e500(req, res, err);
