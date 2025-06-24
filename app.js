@@ -51,6 +51,8 @@ app.use(rProgram);
 app.use("/api", rApis)
 app.use(error.e404);
 
+console.log("Antes del listen");
+
 app.listen(port, () => {
     console.log(`Servidor en puerto: ${port}`);
 });
