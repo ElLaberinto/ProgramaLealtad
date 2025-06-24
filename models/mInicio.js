@@ -4,7 +4,9 @@ import pool from "../databases/database.js";
 const mInicio = {
     inicializar: async () => {
         try{
+            console.log("Modelo");
             await pool.query(`CREATE SCHEMA IF NOT EXISTS dbc`);
+            console.log("Después del schema");
             await pool.query(`CREATE TABLE IF NOT EXISTS dbc.menu
 (
     mnu_id serial NOT NULL,

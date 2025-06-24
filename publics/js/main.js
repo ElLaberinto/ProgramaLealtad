@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const creartodo = document.getElementById("creartodo");
 
     creartodo.addEventListener("click", async () => {
-        await fetch('/api/inicializar');
+        await fetch('/api/inicializar')
         console.log("Inicializado con éxito");
     });
     
