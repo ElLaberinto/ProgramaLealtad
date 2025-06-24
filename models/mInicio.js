@@ -26,7 +26,7 @@ const mInicio = {
     evt_schedules text[] NOT NULL,
     evt_cost numeric(6,2) NOT NULL,
     evt_deposit numeric(6,2) NOT NULL,
-    evt_status boolean DEFAULT true,
+    evt_status boolean DEFAULT true
 )`);
             await pool.query(`CREATE TABLE IF NOT EXISTS dbc.readings
 (
