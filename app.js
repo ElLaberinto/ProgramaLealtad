@@ -11,7 +11,7 @@ import rApis from "./routes/rApis.js";
 import error from "./middlewares/errors.js";
 
 let app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 const __dirname = path.resolve();
 
 app.use(helmet());
