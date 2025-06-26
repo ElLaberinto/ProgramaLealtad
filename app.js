@@ -33,9 +33,10 @@ app.use(session({
   saveUninitialized: false,
   cookie: {
     secure: true,
+    sameSite: 'none',
     httpOnly: true,
-    maxAge: 1000 * 60 * 60 * 10
-  }
+    maxAge: 1000 * 60 * 60
+}
 }));
 app.use((req, res, next) => {
   res.setHeader(
