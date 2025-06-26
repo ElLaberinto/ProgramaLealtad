@@ -16,7 +16,10 @@ const __dirname = path.resolve();
 
 app.use(helmet());
 app.use(morgan("dev"));
-app.use(cors());
+app.use(cors({
+  origin: true,
+  credentials: true
+}));
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
@@ -29,6 +32,7 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   cookie: {
+    secure: true,
     maxAge: 1000 * 60 * 60 * 10
   }
 }));
