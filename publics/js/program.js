@@ -9,7 +9,8 @@ document.addEventListener("DOMContentLoaded", () => {
             const response = await fetch("/programadepuntos", {
                 method: "POST",
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(data)
+                body: JSON.stringify(data),
+                credentials: "include"
             });
 
             const result = await response.json();
