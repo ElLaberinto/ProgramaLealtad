@@ -14,6 +14,7 @@ const mInicio = {
     usr_password text NOT NULL,
     usr_role text NOT NULL,
     usr_status boolean DEFAULT true,
+    CONSTRAINT users_pkey PRIMARY KEY (usr_id),
     CONSTRAINT users_usr_mail_key UNIQUE (usr_mail),
     CONSTRAINT users_usr_role_check CHECK (usr_role = ANY (ARRAY['Cliente'::text, 'Empleado'::text, 'Administrador'::text]))
 )`);
