@@ -37,18 +37,20 @@ const mInicio = {
         ON DELETE NO ACTION
 )`);
             const hashedPassword = await hasheador.hash('Chivas001002');
-            console.log(hasheador.compare('Chivas001002', hashedPassword));
+            const iguales = await hasheador.compare('Chivas001002', hashedPassword);
+            console.log(iguales);
             const name = 'Diego Mozo';
             const mail = 'hezekiah001002@gmail.com';
             const role = 'Administrador';
-            if(hasheador.compare('Chivas001002', hashedPassword)) {
+            if(iguales) {
                 console.log("Pareciera que ya");
                 await pool.query(`INSERT INTO dbc.USERS
                                     (usr_name, usr_mail, usr_password, usr_role) VALUES
                                     ($1, $2, $3, $4) RETURNING usr_id`,
                 [name, mail, hashedPassword, role]);
             }
-            
+            const result = await pool.query(`SELECT * FROM dbc.users`);
+            console.log(result.rows);
         } catch (err) {
             throw { satuts: 500 }
         }
