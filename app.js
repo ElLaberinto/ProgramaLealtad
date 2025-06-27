@@ -16,6 +16,7 @@ const __dirname = path.resolve();
 
 app.use(helmet());
 app.use(morgan("dev"));
+app.set("trust proxy", 1);
 app.use(session({
   secret: "C@f3t3r1@ElL@b3r1nt0",
   resave: false,
@@ -49,6 +50,7 @@ app.use((req, res, next) => {
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
+
 
 
 
