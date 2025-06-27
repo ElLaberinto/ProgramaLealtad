@@ -12,9 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 body: JSON.stringify(data),
                 credentials: "include"
             });
-
             const result = await response.json();
-
             if(result.error) {
                 Swal.fire("❌ Error", result.error, "error");
             } else if (result.success) {

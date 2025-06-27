@@ -45,11 +45,8 @@ const cProgram = {
         try {
             const usuario = req.session.usuario;
             if(usuario == undefined) {
-                console.log("Esperando 5 segundos");
-                setTimeout(() => {
                     error.e403(req, res);
                     return;
-                }, 5000);
             }
             const listaUsuarios = await mUsers.getAll();
             const listaClientes = await mClientes.getAll();
