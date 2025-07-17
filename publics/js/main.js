@@ -6,15 +6,16 @@ document.addEventListener("DOMContentLoaded", () => {
     const btnHamburguer = document.getElementById("header-ham");
     const btnCerrar = document.getElementById("header-cerrar");
 
-    const creartodo = document.getElementById("creartodo");
+    /*const creartodo = document.getElementById("creartodo");
 
     creartodo.addEventListener("click", async () => {
         await fetch('/api/inicializar')
-    });
+    });*/
     
     options.forEach(path => {
         if(path.dataset.path === pathname) path.src = "/media/Coffee.png"
         else path.src = ""
+        if(path.dataset.path === 'programadepuntos' && (pathname === 'clientes' || pathname === 'admins')) path.src = "/media/Coffee.png"
     });
 
     btnHamburguer.addEventListener("click", () => {
