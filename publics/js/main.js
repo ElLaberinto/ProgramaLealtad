@@ -15,7 +15,8 @@ document.addEventListener("DOMContentLoaded", () => {
     options.forEach(path => {
         if(path.dataset.path === pathname) path.src = "/media/Coffee.png"
         else path.src = ""
-        if(path.dataset.path === 'programadepuntos' && (pathname === 'clientes' || pathname === 'admins')) path.src = "/media/Coffee.png"
+        console.log(pathname);
+        if(path.dataset.path === '/programadepuntos' && (pathname === '/clientes' || pathname === '/admins')) path.src = "/media/Coffee.png"
     });
 
     btnHamburguer.addEventListener("click", () => {
