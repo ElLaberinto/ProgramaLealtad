@@ -3,6 +3,7 @@ extends layout
 block content 
     main(class="main main-admin")
         section.admin-opciones
+            input#rol(type="hidden" value=`${usuario.usr_role}`)
             nav.admin-nav#nav
                 a(href="#registro") Registrar compra 
                 a(href="#alta") Nuevo cliente 
@@ -11,9 +12,9 @@ block content
                 a(href="#redencion") Redención de puntos
                 a(href="#eventos") Administrar eventos
                 a(href="#lecturas") Administrar lecturas
+                a(href="#menu") Modificar menu
+                a(href="#clientes") Administrar clientes
                 if usuario.usr_role === "Administrador"
-                    a(href="#menu") Modificar menu
-                    a(href="#clientes") Administrar clientes
                     a(href="#admyemp") Administradores y empleados
         section.admin-logout#logout Cerrar sesión
         section.admin-contenido#contenedor

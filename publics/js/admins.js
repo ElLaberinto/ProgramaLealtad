@@ -24,6 +24,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const btnLogout = document.getElementById("logout");
 
+    const verification = () => {
+        const hash = window.location.hash;
+        const rol = document.getElementById("rol");
+        if(hash === "#admyemp" && rol.value === "Empleado") window.location.hash = "#registro";
+        alert("Acceso denegado a esta sección");
+    };
+    window.addEventListener('hashchange', verification);
+    window.addEventListener('DOMContentLoaded', verification);
+
     let clientes = [];
     let promos = [];
     let clienteSeleccionado = null;
