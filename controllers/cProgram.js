@@ -199,6 +199,8 @@ const cProgram = {
         try {
             const file = req.file;
             const { hide, total, ticket, points } = req.body;
+            console.log(`Datos: ${hide}, ${total}, ${ticket}, ${points}`);
+            console.log("File: ", file);
             const date = new Date().toISOString().split('T')[0];
             const streamUpload = () =>
                 new Promise((resolve, reject) => {
@@ -213,8 +215,11 @@ const cProgram = {
                 });
             const resultado = await streamUpload();
             const url = resultado.secure_url;
+            console.log("Url: ", url);
             await mBuys.insert(hide[1], total, ticket, date, points, url);
+            console.log("Insertado ✅");
             await mClientes.editPoints(hide[1], points);
+            console.log("Puntos actualizados 👌");
             res.status(200).json({ mensaje: 'Ticket subido correctamente' });
         } catch (err) {
             console.error(err);
