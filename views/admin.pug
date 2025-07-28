@@ -40,7 +40,7 @@ block content
                         input#reg-pts(type="number" name="points" readonly)
                     .admin-label-ticket
                         label(for="reg-img") Subir ticket:
-                        input#reg-img(type="file" accept="image/*" capture="environment" name="img")
+                        input#reg-img(type="file" accept="image/*" name="img")
                         img#preview-reg(src="" alt="Vista previa del ticket")
                     input(type="submit" value="Guardar")
             section.admin-sub#alta
@@ -172,7 +172,7 @@ block content
                         input#red-tot(type="number" min="0" step="0.01" name="total" required)
                     .admin-label-ticket 
                         label(for="red-img") Subir ticket:
-                        input#red-img(type="file" accept="image/*" capture="environment" name="img")
+                        input#red-img(type="file" accept="image/*" name="img")
                         img#preview-red(src="" alt="Vista previa del ticket")
                     .admin-label 
                         label(for="red-pts") Puntos: 
@@ -302,7 +302,7 @@ block content
                         input#menu-hide(type="hidden" name="id")
                     .admin-label-ticket 
                         label(for="menu-img") Subir fotografia:
-                        input#menu-img(type="file" accept="image/*" capture="environment" name="img")
+                        input#menu-img(type="file" accept="image/*" name="img")
                         img#menu-preview(src="" alt="Vista previa del ticket")
                     input(type="submit" value="Guardar")
             section.admin-sub#clientes
