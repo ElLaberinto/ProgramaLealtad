@@ -7,14 +7,14 @@ block content
             nav.admin-nav#nav
                 a(href="#registro") Registrar compra 
                 a(href="#alta") Nuevo cliente 
-                a(href="#promos") Administrar promociones 
-                a(href="#rangos") Administrar rangos 
+                a(href="#promos") Administrar promociones  
                 a(href="#redencion") Redención de puntos
-                a(href="#eventos") Administrar eventos
-                a(href="#lecturas") Administrar lecturas
                 a(href="#menu") Modificar menu
                 a(href="#clientes") Administrar clientes
                 if usuario.usr_role === "Administrador"
+                    a(href="#rangos") Administrar rangos
+                    a(href="#eventos") Administrar eventos
+                    a(href="#lecturas") Administrar lecturas
                     a(href="#admyemp") Administradores y empleados
         section.admin-logout#logout Cerrar sesión
         section.admin-contenido#contenedor
@@ -78,7 +78,8 @@ block content
                         th Vencimiento
                         th.no-cel Estatus 
                         th Puntos requeridos 
-                        th Acciones 
+                        if usuario.usr_role === "Administrador"
+                            th Acciones 
                     each promo in listaPromos
                         - var fechaFormateada = new Date(promo.pro_expiration).toISOString().split('T')[0]
                         tr
@@ -89,12 +90,16 @@ block content
                                 td No expira
                             td.no-cel(data-status-id=promo.pro_id data-section="promos")= promo.pro_status ? "Activo" : "Inactivo"
                             td= promo.pro_points
-                            td
-                                img.admin-apagador(src="/media/puntos/apagador.png" alt="apagar/encender" data-id=promo.pro_id data-sec="promos" data-st=`${promo.pro_status}`)
-                                img.admin-eliminador(src="/media/puntos/borrar.png" alt="borrar" data-id=promo.pro_id data-sec="promos")
-                                img.admin-editor(src="/media/puntos/editar.png" alt="editar" data-id=promo.pro_id data-sec="promos")
+                            if usuario.usr_role === "Administrador"
+                                td
+                                    img.admin-apagador(src="/media/puntos/apagador.png" alt="apagar/encender" data-id=promo.pro_id data-sec="promos" data-st=`${promo.pro_status}`)
+                                    img.admin-eliminador(src="/media/puntos/borrar.png" alt="borrar" data-id=promo.pro_id data-sec="promos")
+                                    img.admin-editor(src="/media/puntos/editar.png" alt="editar" data-id=promo.pro_id data-sec="promos")
                     tr
-                        td(colspan="5")
+                        if usuario.usr_role === "Administrador"
+                            td(colspan="5")
+                        else 
+                            d(colspan="4")
                 .admin-btn-nuevo#promos-btn Agregar nuevo
                 .admin-modal#promos-modal
                     .admin-modal-content 

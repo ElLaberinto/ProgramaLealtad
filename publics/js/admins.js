@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const verification = () => {
         const hash = window.location.hash;
         const rol = document.getElementById("rol");
-        if(hash === "#admyemp" && rol.value === "Empleado") {
+        if((hash === "#admyemp" || hash === "#rangos" || hash === "#eventos" || hash === "#lecturas") && rol.value === "Empleado") {
             window.location.hash = "#registro";
             alert("Acceso denegado a esta sección");
         } 
