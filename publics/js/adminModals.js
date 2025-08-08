@@ -34,14 +34,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const btnLogout = document.getElementById("logout");
 
-    abrirModalPromos.addEventListener("click", () => {
-        formPromos.reset();
-        inputHidePromos.value = "Guardar";
-        modalPromos.style.display = "block";
-    });
-    cerrarModalPromos.addEventListener("click", () => {
-        modalPromos.style.display = "none";
-    });
+    if (abrirModalPromos) {
+        abrirModalPromos.addEventListener("click", () => {
+            formPromos.reset();
+            inputHidePromos.value = "Guardar";
+            modalPromos.style.display = "block";
+        });
+        cerrarModalPromos.addEventListener("click", () => {
+            modalPromos.style.display = "none";
+        });
+    }
+
 
     abrirModalRangos.addEventListener("click", () => {
         formRangos.reset();
@@ -83,7 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
         modalAdmYEmp.style.display = "none";
     });
 
-    if(window.innerWidth <= 600 ) {
+    if (window.innerWidth <= 600) {
         const botones = document.querySelectorAll(".admin-nav a");
         const contenedor = document.getElementById("contenedor");
         const nav = document.getElementById("nav");
