@@ -44,7 +44,6 @@ const mBuys = {
         try{
             const result = await pool.query(`SELECT * FROM dbc.BUYS
                                             WHERE buy_ticket = $1`, [ticket]);
-            console.log("Todo bien en model");
             return result.rowCount > 0;
         } catch(err) {
             throw { status: 500 };
