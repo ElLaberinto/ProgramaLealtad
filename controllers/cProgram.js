@@ -203,6 +203,7 @@ const cProgram = {
                 let aux = ticket;
                 ticket = "0" + aux;
             }
+            console.log("Ticket: ", ticket);
             if (mBuys.repeatedTicket(ticket)) res.status(409).json({ message: "Ticket ya registrado"});
             console.log(`Datos: ${hide}, ${total}, ${ticket}, ${points}`);
             console.log("File: ", file);
