@@ -174,14 +174,16 @@ document.addEventListener("DOMContentLoaded", () => {
                     method: 'POST',
                     body: formData,
                 });
-                if (res.ok)
+                if(res.message === "Ticket ya registrado") {
+                    alert("Ya se registró ese ticket");
+                } else if (res.ok)
                     Swal.fire({ title: 'Éxito', text: 'Compra registrada correctamente', icon: 'success' });
                 const previewRed = document.getElementById("preview-red");
                 const previewReg = document.getElementById("preview-reg");
                 previewRed.style.display = previewReg.style.display = "none";
                 form.reset();
             } catch (err) {
-                Swal.fire("❌ Error al registrar compra", result.error || "No se pudo registrar correctamente", "error");
+                Swal.fire("❌ Error al registrar compra", res.error || "No se pudo registrar correctamente", "error");
             }
         });
     });

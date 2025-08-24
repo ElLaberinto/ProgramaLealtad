@@ -199,6 +199,11 @@ const cProgram = {
         try {
             const file = req.file;
             const { hide, total, ticket, points } = req.body;
+            if (ticket.length === 5) {
+                let aux = ticket;
+                ticket = "0" + aux;
+            }
+            if (mBuys.repeatedTicket(ticket)) res.status(409).json({ message: "Ticket ya registrado"});
             console.log(`Datos: ${hide}, ${total}, ${ticket}, ${points}`);
             console.log("File: ", file);
             const date = new Date().toISOString().split('T')[0];

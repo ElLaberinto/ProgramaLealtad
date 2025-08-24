@@ -30,8 +30,8 @@ block content
                         input#reg-hide(type="hidden" name="hide")
                     .admin-label 
                         label(for="reg-num") Número de ticket: 
-                        input#reg-num(type="text" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" 
-                        minlength="6" name="ticket" autocomplete="off" required)
+                        input#reg-num(type="text" inputmode="numeric" pattern="[0-9]{5,6}" maxlength="6" 
+                        minlength="5" name="ticket" autocomplete="off" required)
                     .admin-label 
                         label(for="reg-tot") Total del importe: 
                         input#reg-tot(type="number" min="0" step="0.01" name="total" required)
@@ -171,8 +171,8 @@ block content
                         ul.lista-filtro#lista-promos-red
                     .admin-label
                         label(for="red-num") Número de ticket: 
-                        input#red-num(type="text" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" 
-                        minlength="6" name="ticket" required)
+                        input#red-num(type="text" inputmode="numeric" pattern="[0-9]{5,6}" maxlength="6" 
+                        minlength="5" name="ticket" required)
                     .admin-label 
                         label(for="red-tot") Total del importe: 
                         input#red-tot(type="number" min="0" step="0.01" name="total" required)

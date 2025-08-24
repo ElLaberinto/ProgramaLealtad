@@ -39,6 +39,15 @@ const mBuys = {
         } catch(err) {
             throw { status: 500 };
         }
+    },
+    repeatedTicket: async (ticket) => {
+        try{
+            const result = await pool.query(`SELECT * FROM dbc.BUYS
+                                            WHERE buy_ticket = $1`, [ticket]);
+            return result.rowCount > 0;
+        } catch(err) {
+            throw { status: 500};
+        }
     }
 };
 
