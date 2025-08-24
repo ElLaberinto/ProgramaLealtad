@@ -198,10 +198,9 @@ const cProgram = {
     subirTicket: async (req, res) => {
         try {
             const file = req.file;
-            const { hide, total, ticket, points } = req.body;
+            let { hide, total, ticket, points } = req.body;
             if (ticket.length === 5) {
-                let aux = ticket;
-                ticket = "0" + aux;
+                ticket = "0" + ticket;
             }
             console.log("Ticket: ", ticket);
             if (mBuys.repeatedTicket(ticket)) res.status(409).json({ message: "Ticket ya registrado"});
