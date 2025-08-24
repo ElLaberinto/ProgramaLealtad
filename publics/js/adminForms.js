@@ -174,7 +174,8 @@ document.addEventListener("DOMContentLoaded", () => {
                     method: 'POST',
                     body: formData,
                 });
-                if(res.message === "Ticket ya registrado") {
+                const data = await res.json();
+                if(data.message === "Ticket ya registrado") {
                     alert("Ya se registró ese ticket");
                 } else if (res.ok)
                     Swal.fire({ title: 'Éxito', text: 'Compra registrada correctamente', icon: 'success' });
