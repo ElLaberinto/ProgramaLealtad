@@ -176,7 +176,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 });
                 const data = await res.json();
                 if(data.message === "Ticket ya registrado") {
-                    alert("Ya se registró ese ticket");
+                    alert("Cuidado, este ticket ya estaba en sistema");
                 } else if (res.ok)
                     Swal.fire({ title: 'Éxito', text: 'Compra registrada correctamente', icon: 'success' });
                 const previewRed = document.getElementById("preview-red");

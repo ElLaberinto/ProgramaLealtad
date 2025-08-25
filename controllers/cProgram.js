@@ -202,7 +202,7 @@ const cProgram = {
             if (ticket.length === 5) {
                 ticket = "0" + ticket;
             }
-            if (mBuys.repeatedTicket(ticket)) {
+            if (await mBuys.repeatedTicket(ticket)) {
                 res.status(409).json({ message: "Ticket ya registrado"});
                 return;
             }
