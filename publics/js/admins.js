@@ -162,6 +162,7 @@ document.addEventListener("DOMContentLoaded", () => {
             li.textContent = `${producto.name} , $${Math.floor(producto.price)}`;
             li.addEventListener("click", () => {
                 if(producto.url != null) {
+                    alert("⚠️ Este producto ya tiene foto");
                     Swal.fire("❌ Error", "El producto que elegiste ya tiene una foto asociada");
                     inputProducto.value = listaProductos.innerHTML = "";
                     return;

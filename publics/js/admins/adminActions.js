@@ -3,43 +3,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const eliminadores = document.querySelectorAll(".admin-eliminador");
     const editores = document.querySelectorAll(".admin-editor");
 
-    const editoresPromos = document.querySelectorAll(`.admin-editor[data-sec="promos"]`);
-    const modalPromos = document.getElementById("promos-modal");
-    const formPromos = document.getElementById("promos-form");
-    const inputHidePromos = document.querySelector("#promos-form input[type=hidden]");
-
-    const editoresRangos = document.querySelectorAll(`.admin-editor[data-sec="rangos"]`);
-    const modalRangos = document.getElementById("rangos-modal");
-    const formRangos = document.getElementById("rangos-form");
-    const inputHideRangos = document.querySelector("#rangos-form input[type=hidden]");
-
-    const editoresEventos = document.querySelectorAll(`.admin-editor[data-sec="eventos"]`);
-    const modalEventos = document.getElementById("eventos-modal");
-    const formEventos = document.getElementById("eventos-form");
-    const inputHideEventos = document.querySelector("#eventos-form input[type=hidden]");
-
-    const editoresLecturas = document.querySelectorAll(`.admin-editor[data-sec="lecturas"]`);
-    const modalLecturas = document.getElementById("lecturas-modal");
-    const formLecturas = document.getElementById("lecturas-form");
-    const inputHideLecturas = document.querySelector("#lecturas-form input[type=hidden]");
-
-    const editoresClientes = document.querySelectorAll(`.admin-editor[data-sec="clientes"]`);
-    const modalClientes = document.getElementById("clientes-modal");
-    const cerrarModalClientes = document.getElementById("clientes-cerrar");
-    const formClientes = document.getElementById("admyemp-form");
-    const inputHideClientes = document.querySelector("#clientes-form input[type=hidden]");
-
-
-    const editoresAdmYEmp = document.querySelectorAll(`.admin-editor[data-sec="admyemp"]`);
-    const modalAdmYEmp = document.getElementById("admyemp-modal");
-    const formAdmYEmp = document.getElementById("admyemp-form");
-    const inputHideAdmYEmp = document.querySelector("#admyemp-form input[type=hidden]");
-   
-    const fieds = {
-        promos: ["promos_name", "promos_points", "promos_expiration", "promos_noexp"],
-        rangos: ["rangos_"]
-    }
-
     apagadores.forEach(apagador => {
         if (apagador.dataset.st === "true") {
             apagador.style.backgroundColor = "rgba(0, 254, 84, 0.8)";
@@ -56,11 +19,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 body: JSON.stringify({ id, section })
             })
                 .then(res => {
-                    if (!res.ok) Swal.fire("❌ Error", "No se pudo usar el apagador", "error");
+                    if (!res.ok) {
+                        alert("❌ Error al usar apagador");
+                        Swal.fire("❌ Error", "No se pudo usar el apagador", "error");
+                    } 
                     return res.json();
                 })
                 .then(data => {
                     if (!data.success) {
+                        alert("❌ Error");
                         Swal.fire("❌ Error", data.message);
                         return;
                     }
@@ -98,11 +65,17 @@ document.addEventListener("DOMContentLoaded", () => {
                         body: JSON.stringify({ id, section })
                     })
                         .then(res => {
-                            if(!res.ok) Swal.fire("❌ Error", "No se pudo usar el eliminador", "error");
+                            if(!res.ok){
+                                alert("❌ Error al usar eliminador");
+                                Swal.fire("❌ Error", "No se pudo usar el eliminador", "error");
+                            } 
                             return res.json();
                         })
                         .then(data => {
-                            if(!data.success) return Swal.fire("❌ Error", data.message);
+                            if(!data.success) {
+                                alert("❌ Error");
+                                return Swal.fire("❌ Error", data.message);
+                            } 
                             window.location.href = `/admins#${section}`
                         })
                         .catch(err => console.error("Error en el eliminador: ", err));
@@ -117,7 +90,10 @@ document.addEventListener("DOMContentLoaded", () => {
             const section = editor.dataset.sec;
             const response = await fetch(`/api/obtenInfo?id=${id}&sec=${section}`);
             const info = await response.json();
-            if(!info || !info.success) return Swal.fire("❌ Error", "Error al obtener información de la base de datos");
+            if(!info || !info.success) {
+                alert("❌ Error de base de datos");
+                return Swal.fire("❌ Error", "Error al obtener información de la base de datos");
+            } 
             const modal = document.getElementById(`${section}-modal`)
             const form = document.getElementById(`${section}-form`);
             const inputsHide = form.querySelectorAll(`input[type="hidden"]`);

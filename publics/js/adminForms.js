@@ -47,9 +47,11 @@ document.addEventListener("DOMContentLoaded", () => {
                     const result = JSON.parse(text);
                     if (result.success) {
                         Swal.fire("✅ Agregado correctamente", result.message || "", "success");
+                        alert("Agregado correctamente");
                         form.reset();
                     } else {
                         Swal.fire("❌ Error al agregar", result.message || "No se pudo agregar correctamente", "error");
+                        alert("Error al agregar");
                     }
                 } else if (data.hide == "Editar") {
                     const allInputs = form.querySelectorAll("input[name]");
@@ -71,19 +73,32 @@ document.addEventListener("DOMContentLoaded", () => {
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify(arrayInputs)
                     });
-                    if (!response.ok) return Swal.fire("❌ Error al editar", "Hubo un error interno con la edición");
+                    if (!response.ok) {
+                        alert("❌ Error en la edición");
+                        return Swal.fire("❌ Error al editar", "Hubo un error interno con la edición");
+                    }
                     const result = await response.json();
-                    console.log("Result", result);
-                    if (!result.success) return Swal.fire("❌ Error al editar", result.message);
-                    Swal.fire("✅ Editado correctamente", "Reiniciando sesión para ver cambios")
-                        .then(() => {
-                            localStorage.setItem('redirectSection', section);
-                            window.location.replace("/admins");
-                        });
+                    if (!result.success) {
+                        alert("❌ Error en la edición");
+                        return Swal.fire("❌ Error al editar", result.message);
+                    }
+                    if (typeof Swal !== "undefined") {
+                        Swal.fire("✅ Editado correctamente", "Reiniciando sesión para ver cambios")
+                            .then(() => {
+                                localStorage.setItem('redirectSection', section);
+                                window.location.replace("/admins");
+                            });
+                    } else {
+                        alert("✅ Editado correctamente\nReiniciando sesión para ver cambios");
+                        localStorage.setItem('redirectSection', section);
+                        window.location.replace("/admins");
+                    }
                 } else {
+                    alert("❌ Error interno")
                     Swal.fire({ icon: 'error', title: 'Error', text: "Error en la información" });
                 }
             } catch (err) {
+                alert("❌ Error interno")
                 Swal.fire({ icon: 'error', title: 'Error al registrar', text: err.message });
             }
         });
@@ -175,15 +190,19 @@ document.addEventListener("DOMContentLoaded", () => {
                     body: formData,
                 });
                 const data = await res.json();
-                if(data.message === "Ticket ya registrado") {
-                    alert("Cuidado, este ticket ya estaba en sistema");
-                } else if (res.ok)
+                if (data.message === "Ticket ya registrado") {
+                    alert("⚠️ Cuidado, este ticket ya estaba en sistema");
+                } else if (res.ok) {
+                    alert("✅ Compra registrada correctamente");
                     Swal.fire({ title: 'Éxito', text: 'Compra registrada correctamente', icon: 'success' });
+                }
+
                 const previewRed = document.getElementById("preview-red");
                 const previewReg = document.getElementById("preview-reg");
                 previewRed.style.display = previewReg.style.display = "none";
                 form.reset();
             } catch (err) {
+                alert("❌ Error interno")
                 Swal.fire("❌ Error al registrar compra", res.error || "No se pudo registrar correctamente", "error");
             }
         });
@@ -198,12 +217,16 @@ document.addEventListener("DOMContentLoaded", () => {
                 method: 'POST',
                 body: formData,
             });
-            if (res.ok)
+            if (res.ok) {
+                alert("✅ Foto guardada con éxito");
                 Swal.fire({ title: 'Éxito', text: 'Foto guardada correctamente', icon: 'success' });
+            }
+                
             const menuPreview = document.getElementById("menu-preview");
             menuForm.reset();
             menuPreview.style.display = "none";
         } catch (err) {
+            alert("❌ Error interno")
             Swal.fire("❌ Error interno", "No se pudo guardar la foto");
         }
     });
