@@ -8,7 +8,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const userFields = ["name", "mail", "password"];
 
     btnAbrir.addEventListener("click", async () => {
-        Swal.fire({
+        if (typeof Swal !== "undefined") {
+            Swal.fire({
             title: 'Confirmación para edición',
             text: 'Por favor, ingresa tu contraseña para continuar:',
             input: 'password',
@@ -37,6 +38,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 else Swal.fire("❌ Error", res.error);
             }
         });
+        } else {
+            alert("😥 No disponible \n Acude a \"El Laberinto\" a que te ayuden con la edición");
+        }
+        
     });
 
     btnCerrar.addEventListener("click", () => {

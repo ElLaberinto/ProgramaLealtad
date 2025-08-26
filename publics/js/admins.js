@@ -27,10 +27,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const verification = () => {
         const hash = window.location.hash;
         const rol = document.getElementById("rol");
-        if((hash === "#admyemp" || hash === "#rangos" || hash === "#eventos" || hash === "#lecturas") && rol.value === "Empleado") {
+        if ((hash === "#admyemp" || hash === "#rangos" || hash === "#eventos" || hash === "#lecturas") && rol.value === "Empleado") {
             window.location.hash = "#registro";
             alert("Acceso denegado a esta sección");
-        } 
+        }
     };
     window.addEventListener('hashchange', verification);
     window.addEventListener('DOMContentLoaded', verification);
@@ -161,7 +161,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const li = document.createElement("li");
             li.textContent = `${producto.name} , $${Math.floor(producto.price)}`;
             li.addEventListener("click", () => {
-                if(producto.url != null) {
+                if (producto.url != null) {
                     alert("⚠️ Este producto ya tiene foto");
                     Swal.fire("❌ Error", "El producto que elegiste ya tiene una foto asociada");
                     inputProducto.value = listaProductos.innerHTML = "";
@@ -188,20 +188,26 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     btnLogout.addEventListener("click", () => {
-        Swal.fire({
-            title: "¿Seguro quieres cerrar la sesión?",
-            text: "Tendrás que volver a ingresar tus datos",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#d33",
-            cancelButtonColor: "#3085d6",
-            confirmButtonText: "Sí, salir",
-            cancelButtonText: "Cancelar"
-        }).then(async result => {
-            if (result.isConfirmed) {
-                window.location.href = "/logout";
-            }
-        });
+        if (typeof Swal !== "undefined" && Swal.fire) {
+            Swal.fire({
+                title: "¿Seguro quieres cerrar la sesión?",
+                text: "Tendrás que volver a ingresar tus datos",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#d33",
+                cancelButtonColor: "#3085d6",
+                confirmButtonText: "Sí, salir",
+                cancelButtonText: "Cancelar"
+            }).then(async result => {
+                if (result.isConfirmed) {
+                    window.location.href = "/logout";
+                }
+            });
+        } else {
+            alert("Tu sesión se cerrará \n Vuelve pronto ✌️");
+            window.location.href = "/logout";
+        }
+
     });
 
 });

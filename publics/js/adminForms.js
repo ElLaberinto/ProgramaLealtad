@@ -47,11 +47,12 @@ document.addEventListener("DOMContentLoaded", () => {
                     const result = JSON.parse(text);
                     if (result.success) {
                         Swal.fire("✅ Agregado correctamente", result.message || "", "success");
-                        alert("Agregado correctamente");
+                        alert("✅ Agregado correctamente \n Reiniciando sesión");
                         form.reset();
+                        window.location.href = "/admins";
                     } else {
                         Swal.fire("❌ Error al agregar", result.message || "No se pudo agregar correctamente", "error");
-                        alert("Error al agregar");
+                        alert("❌ Error al agregar");
                     }
                 } else if (data.hide == "Editar") {
                     const allInputs = form.querySelectorAll("input[name]");
@@ -195,8 +196,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 } else if (res.ok) {
                     alert("✅ Compra registrada correctamente");
                     Swal.fire({ title: 'Éxito', text: 'Compra registrada correctamente', icon: 'success' });
+                    window.location.href = "/admins";
                 }
-
                 const previewRed = document.getElementById("preview-red");
                 const previewReg = document.getElementById("preview-reg");
                 previewRed.style.display = previewReg.style.display = "none";
